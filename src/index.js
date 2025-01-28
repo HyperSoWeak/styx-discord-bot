@@ -4,13 +4,14 @@ import { fileURLToPath } from 'node:url';
 import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import config from './config.json' with { 'type': 'json' };
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+
 client.commands = new Collection();
 client.cooldowns = new Collection();
+client.config = config;
 
 const foldersPath = path.join(__dirname, 'commands');
 const commandFolders = fs.readdirSync(foldersPath);
