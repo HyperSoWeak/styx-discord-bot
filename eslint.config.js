@@ -1,15 +1,15 @@
-const js = require('@eslint/js');
+import { configs } from '@eslint/js';
 
-module.exports = [
-  js.configs.recommended,
+export default [
+  configs.recommended,
   {
     languageOptions: {
       ecmaVersion: 'latest',
     },
     rules: {
       'arrow-spacing': ['warn', { before: true, after: true }],
-      'brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
-      'comma-dangle': ['error', 'always-multiline'],
+      'brace-style': ['error', '1tbs'],
+      'comma-dangle': ['off'],
       'comma-spacing': 'error',
       'comma-style': 'error',
       curly: ['error', 'multi-line', 'consistent'],

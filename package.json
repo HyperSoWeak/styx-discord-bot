@@ -1,14 +1,17 @@
 {
   "name": "styx",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node .",
+    "deploy-commands:guild": "node src/deploy-commands.js guild",
+    "deploy-commands": "node src/deploy-commands.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "type": "module",
   "dependencies": {
     "discord.js": "^14.17.3"
   },
