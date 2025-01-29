@@ -2,12 +2,14 @@ import { REST, Routes } from 'discord.js';
 import { readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import config from './config.json' with { 'type': 'json' };
-import token from './token.json' with { 'type': 'json' };
 
-const commands = [];
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const config = JSON.parse(readFileSync(join(__dirname, 'config.json'), 'utf-8'));
+const token = JSON.parse(readFileSync(join(__dirname, 'token.json'), 'utf-8'));
+
+const commands = [];
 
 const foldersPath = join(__dirname, 'commands');
 const commandFolders = readdirSync(foldersPath);
@@ -35,16 +37,10 @@ async function deployCommands(deployToGuild = false) {
     let data;
 
     if (deployToGuild) {
-      data = await rest.put(
-        Routes.applicationGuildCommands(config.client.id, config.testGuildId),
-        { body: commands }
-      );
+      data = await rest.put(Routes.applicationGuildCommands(config.client.id, config.testGuildId), { body: commands });
       console.log(`Successfully reloaded ${data.length} application (/) commands to guild.`);
     } else {
-      data = await rest.put(
-        Routes.applicationCommands(config.client.id),
-        { body: commands }
-      );
+      data = await rest.put(Routes.applicationCommands(config.client.id), { body: commands });
       console.log(`Successfully reloaded ${data.length} application (/) commands globally.`);
     }
   } catch (error) {
