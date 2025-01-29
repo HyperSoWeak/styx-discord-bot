@@ -1,4 +1,5 @@
-import { SlashCommandBuilder, EmbedBuilder } from 'discord.js';
+import { SlashCommandBuilder } from 'discord.js';
+import createEmbed from '../../components/embed.js';
 
 export const data = new SlashCommandBuilder().setName('botinfo').setDescription('Provides information about the bot.');
 
@@ -12,8 +13,7 @@ export async function execute(interaction) {
 
   const developers = bot.config.developers.map((dev) => dev.name).join(', ');
 
-  const botInfoEmbed = new EmbedBuilder()
-    .setColor('#0099ff')
+  const botInfoEmbed = createEmbed(interaction)
     .setTitle('Bot Information')
     .setThumbnail(bot.user.displayAvatarURL())
     .addFields(
@@ -25,9 +25,7 @@ export async function execute(interaction) {
       { name: 'Ping', value: `${bot.ws.ping}ms`, inline: true },
       { name: 'Bot Version', value: bot.config.version, inline: true },
       { name: 'Developer(s)', value: developers, inline: true }
-    )
-    .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() })
-    .setTimestamp();
+    );
 
   await interaction.reply({ embeds: [botInfoEmbed] });
 }

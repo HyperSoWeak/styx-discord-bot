@@ -1,9 +1,27 @@
 import { SlashCommandBuilder } from 'discord.js';
+import createEmbed from '../../components/embed.js';
 
 export const data = new SlashCommandBuilder()
   .setName('server')
-  .setDescription('Provides information about the server.');
+  .setDescription('Provides information about the current server.');
 
 export async function execute(interaction) {
-  await interaction.reply(`This server is ${interaction.guild.name} and has ${interaction.guild.memberCount} members.`);
+  const { guild } = interaction;
+  const owner = await guild.fetchOwner();
+
+  const serverEmbed = createEmbed(interaction)
+    .setTitle('Server Information')
+    .setThumbnail(guild.iconURL({ dynamic: true }))
+    .addFields(
+      { name: 'Server Name', value: guild.name, inline: true },
+      { name: 'Server ID', value: guild.id, inline: true },
+      { name: 'Owner', value: `${owner.user.tag}`, inline: true },
+      { name: 'Total Members', value: `${guild.memberCount}`, inline: true },
+      { name: 'Creation Date', value: guild.createdAt.toDateString(), inline: true },
+      { name: 'Boost Level', value: `${guild.premiumTier}`, inline: true },
+      { name: 'Boosters', value: `${guild.premiumSubscriptionCount}`, inline: true },
+      { name: 'Region', value: guild.region || 'Unknown', inline: true }
+    );
+
+  await interaction.reply({ embeds: [serverEmbed] });
 }
