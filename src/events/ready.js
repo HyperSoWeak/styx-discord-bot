@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import { Events } from 'discord.js';
-import { connectDB } from '../database.js';
+import { connectDB } from '../utils/database.js';
 
 export const name = Events.ClientReady;
 export const once = true;
