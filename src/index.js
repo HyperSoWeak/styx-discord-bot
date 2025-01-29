@@ -17,7 +17,6 @@ const client = new Client({
 client.commands = new Collection();
 client.cooldowns = new Collection();
 
-config.token = token.token;
 client.config = config;
 
 const foldersPath = path.join(__dirname, 'commands');
@@ -50,4 +49,4 @@ for (const file of eventFiles) {
 	}
 }
 
-client.login(config.token);
+client.login(token.client);
