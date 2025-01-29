@@ -1,14 +1,18 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
+import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import config from './config.json' with { 'type': 'json' };
 import token from './token.json' with { 'type': 'json' };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+const client = new Client({
+  intents: Object.keys(GatewayIntentBits).map((a)=>{
+    return GatewayIntentBits[a]
+  })
+});
 
 client.commands = new Collection();
 client.cooldowns = new Collection();

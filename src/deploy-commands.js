@@ -3,6 +3,7 @@ import { readdirSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import config from './config.json' with { 'type': 'json' };
+import token from './token.json' with { 'type': 'json' };
 
 const commands = [];
 const __filename = fileURLToPath(import.meta.url);
@@ -25,7 +26,7 @@ for (const folder of commandFolders) {
   }
 }
 
-const rest = new REST().setToken(config.token);
+const rest = new REST().setToken(token.token);
 
 async function deployCommands(deployToGuild = false) {
   try {

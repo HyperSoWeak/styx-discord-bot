@@ -1,6 +1,7 @@
 import { ButtonBuilder, ButtonStyle, SlashCommandBuilder, ActionRowBuilder, MessageFlags } from 'discord.js';
 
 export const data = new SlashCommandBuilder().setName('test').setDescription('For testing purposes.');
+export const ownerOnly = true;
 
 export async function execute(interaction) {
   const yes = new ButtonBuilder().setCustomId('Yes').setLabel('Yes').setStyle(ButtonStyle.Primary);

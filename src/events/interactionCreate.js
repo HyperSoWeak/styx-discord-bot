@@ -36,6 +36,15 @@ export async function execute(interaction) {
     }
   }
 
+  // Check permissions
+  if (command.ownerOnly && !interaction.client.config.developers.some((dev) => dev.id === interaction.user.id)) {
+    return interaction.reply({
+      content: 'You do not have permission to use this command!',
+      flags: MessageFlags.Ephemeral,
+    });
+  }
+
+  // Execute the command
   try {
     await command.execute(interaction);
     timestamps.set(interaction.user.id, now);
