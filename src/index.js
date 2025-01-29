@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client, Collection, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
 import config from './config.json' with { 'type': 'json' };
+import token from './token.json' with { 'type': 'json' };
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -11,6 +12,8 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] });
 
 client.commands = new Collection();
 client.cooldowns = new Collection();
+
+config.token = token.token;
 client.config = config;
 
 const foldersPath = path.join(__dirname, 'commands');
@@ -43,4 +46,4 @@ for (const file of eventFiles) {
 	}
 }
 
-client.login(config.client.token);
+client.login(config.token);

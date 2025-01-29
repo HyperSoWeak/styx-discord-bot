@@ -25,7 +25,7 @@ for (const folder of commandFolders) {
   }
 }
 
-const rest = new REST().setToken(config.client.token);
+const rest = new REST().setToken(config.token);
 
 async function deployCommands(deployToGuild = false) {
   try {
