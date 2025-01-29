@@ -16,8 +16,8 @@ class MusicManager {
       queue.textChannel.send(`Added **${song.name}** to the queue`);
     });
 
-    this.distube.on('playList', (queue, playlist) => {
-      queue.textChannel.send(`Playing playlist: **${playlist.name}**`);
+    this.distube.on('addList', (queue, playlist) => {
+      queue.textChannel.send(`Added playlist: **${playlist.name}** to the queue`);
     });
   }
 
@@ -36,7 +36,7 @@ class MusicManager {
       textChannel,
     });
 
-    await interaction.deleteReply();
+    await interaction.editReply('Successfully played the song.');
   }
 
   async stop(interaction) {
@@ -107,6 +107,25 @@ class MusicManager {
 
     this.distube.setVolume(channel, volume);
     interaction.reply(`Volume has been set to **${volume}**.`);
+  }
+
+  shuffle(interaction) {
+    const channel = interaction.member.voice.channel;
+    if (!channel) return interaction.reply('You need to join a voice channel first!');
+
+    this.distube.shuffle(channel);
+    interaction.reply('The queue has been shuffled.');
+  }
+
+  skip(interaction) {
+    const channel = interaction.member.voice.channel;
+    if (!channel) return interaction.reply('You need to join a voice channel first!');
+
+    const queue = this.distube.getQueue(channel);
+    if (!queue || !queue.playing) return interaction.reply('There is no song playing to skip.');
+
+    this.distube.skip(channel);
+    interaction.reply('The song has been skipped.');
   }
 }
 

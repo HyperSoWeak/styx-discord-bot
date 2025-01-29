@@ -1,5 +1,5 @@
 import { REST, Routes } from 'discord.js';
-import { readdirSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -48,7 +48,24 @@ async function deployCommands(deployToGuild = false) {
   }
 }
 
+async function deleteCommands(deployToGuild = false) {
+  try {
+    console.log(`Started deleting application (/) commands.`);
+
+    if (deployToGuild) {
+      await rest.put(Routes.applicationGuildCommands(config.client.id, config.testGuildId), { body: [] });
+      console.log(`Successfully deleted application (/) commands from guild.`);
+    } else {
+      await rest.put(Routes.applicationCommands(config.client.id), { body: [] });
+      console.log(`Successfully deleted application (/) commands globally.`);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+}
+
 const args = process.argv.slice(2);
 const deployToGuild = args[0] === 'guild';
 
 deployCommands(deployToGuild);
+// deleteCommands(deployToGuild);
