@@ -64,8 +64,14 @@ async function deleteCommands(deployToGuild = false) {
   }
 }
 
-const args = process.argv.slice(2);
+const args = process.argv.slice(3);
 const deployToGuild = args[0] === 'guild';
+const isTest = args[1] === 'test';
+
+if (isTest) {
+  token.client = token.testClient;
+  config.client.id = config.client.testId;
+}
 
 deployCommands(deployToGuild);
 // deleteCommands(deployToGuild);

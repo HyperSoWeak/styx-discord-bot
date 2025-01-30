@@ -3,12 +3,20 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import musicManager from './managers/musicManager.js';
+import chalk from 'chalk';
+
+const args = process.argv.slice(2);
+const isTest = args[0] === 'test';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf-8'));
 const token = JSON.parse(fs.readFileSync(path.join(__dirname, 'token.json'), 'utf-8'));
+
+if (isTest) {
+  token.client = token.testClient;
+}
 
 const client = new Client({
   intents: Object.keys(GatewayIntentBits).map((a) => {
@@ -33,7 +41,9 @@ for (const folder of commandFolders) {
     if ('data' in command && 'execute' in command) {
       client.commands.set(command.data.name, command);
     } else {
-      console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+      console.log(
+        chalk.yellow(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
+      );
     }
   }
 }
