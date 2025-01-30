@@ -1,3 +1,4 @@
+import chalk from 'chalk';
 import { REST, Routes } from 'discord.js';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -8,6 +9,16 @@ const __dirname = dirname(__filename);
 
 const config = JSON.parse(readFileSync(join(__dirname, 'config.json'), 'utf-8'));
 const token = JSON.parse(readFileSync(join(__dirname, 'token.json'), 'utf-8'));
+
+const args = process.argv.slice(2);
+const deployToGuild = args[0] === 'guild';
+const isTest = args[1] === 'test';
+
+if (isTest) {
+  token.client = token.testClient;
+  config.client.id = config.client.testId;
+  console.log(chalk.cyan('Deploying to test client.'));
+}
 
 const commands = [];
 
@@ -62,15 +73,6 @@ async function deleteCommands(deployToGuild = false) {
   } catch (error) {
     console.error(error);
   }
-}
-
-const args = process.argv.slice(3);
-const deployToGuild = args[0] === 'guild';
-const isTest = args[1] === 'test';
-
-if (isTest) {
-  token.client = token.testClient;
-  config.client.id = config.client.testId;
 }
 
 deployCommands(deployToGuild);
