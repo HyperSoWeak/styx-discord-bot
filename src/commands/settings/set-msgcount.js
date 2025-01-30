@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import { getGuildSettings } from '../../utils/getter.js';
 
 export const data = new SlashCommandBuilder()
-  .setName('set-msg-count')
+  .setName('set-msgcount')
   .setDescription('Toggle message count tracking system.')
   .addBooleanOption((option) =>
     option.setName('enabled').setDescription('Enable or disable message count tracking system.').setRequired(true)

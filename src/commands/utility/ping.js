@@ -9,7 +9,7 @@ export async function execute(interaction) {
     withResponse: true,
   });
 
-  const roundTripLatency = sentMessage.createdTimestamp - interaction.createdTimestamp;
+  const roundTripLatency = sentMessage.resource.message.createdTimestamp - interaction.createdTimestamp;
   const apiPing = interaction.client.ws.ping;
 
   const pingEmbed = createEmbed(interaction)
