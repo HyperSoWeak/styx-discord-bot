@@ -1,9 +1,12 @@
 import { EmbedBuilder } from 'discord.js';
 
-export function createEmbed(interaction) {
+export function createEmbed(interaction, footer = null) {
   return new EmbedBuilder()
     .setColor('#0099ff')
-    .setFooter({ text: `Requested by ${interaction.user.username}`, iconURL: interaction.user.displayAvatarURL() })
+    .setFooter({
+      text: `${footer ? `${footer} • ` : ''}Requested by ${interaction.user.username}`,
+      iconURL: interaction.user.displayAvatarURL(),
+    })
     .setTimestamp();
 }
 

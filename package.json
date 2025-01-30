@@ -21,7 +21,8 @@
     "distube": "^5.0.4",
     "ffmpeg-static": "^5.2.0",
     "libsodium-wrappers": "^0.7.15",
-    "mongoose": "^8.9.5"
+    "mongoose": "^8.9.5",
+    "node-fetch": "^3.3.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
