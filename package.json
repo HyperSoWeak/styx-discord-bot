@@ -1,6 +1,6 @@
 {
-  "name": "styx",
-  "version": "1.0.0",
+  "name": "styx-discord-bot",
+  "version": "1.0.1",
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
@@ -8,7 +8,7 @@
     "deploy-commands": "node src/deploy-commands.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "HyperSoWeak",
   "license": "ISC",
   "description": "",
   "type": "module",
