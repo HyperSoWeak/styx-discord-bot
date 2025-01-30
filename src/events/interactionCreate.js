@@ -1,4 +1,5 @@
 import { Events, MessageFlags, Collection } from 'discord.js';
+import { isDeveloper } from '../utils/checker.js';
 
 export const name = Events.InteractionCreate;
 
@@ -22,7 +23,7 @@ export async function execute(interaction) {
   const timestamps = cooldowns.get(command.data.name);
   const cooldownAmount = (command.cooldown || 3) * 1000; // Default to 3 seconds cooldown
 
-  if (timestamps.has(interaction.user.id)) {
+  if (!isDeveloper(interaction.user.id) && timestamps.has(interaction.user.id)) {
     const expirationTime = timestamps.get(interaction.user.id) + cooldownAmount;
 
     if (now < expirationTime) {
@@ -37,7 +38,7 @@ export async function execute(interaction) {
   }
 
   // Check permissions
-  if (command.ownerOnly && !interaction.client.config.developers.some((dev) => dev.id === interaction.user.id)) {
+  if (command.ownerOnly && !isDeveloper(interaction.user.id)) {
     return interaction.reply({
       content: 'You do not have permission to use this command!',
       flags: MessageFlags.Ephemeral,

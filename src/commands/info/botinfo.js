@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import createEmbed from '../../components/embed.js';
+import { createEmbed } from '../../components/embed.js';
 
 export const data = new SlashCommandBuilder().setName('botinfo').setDescription('Provides information about the bot.');
 
@@ -14,7 +14,7 @@ export async function execute(interaction) {
   const developers = bot.config.developers.map((dev) => dev.name).join(', ');
 
   const botInfoEmbed = createEmbed(interaction)
-    .setTitle('Bot Information')
+    .setTitle(':robot: Bot Information')
     .setThumbnail(bot.user.displayAvatarURL())
     .addFields(
       { name: 'Bot Name', value: bot.user.username, inline: true },

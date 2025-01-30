@@ -1,5 +1,5 @@
 import { SlashCommandBuilder } from 'discord.js';
-import createEmbed from '../../components/embed.js';
+import { createEmbed } from '../../components/embed.js';
 
 export const data = new SlashCommandBuilder().setName('ping').setDescription('Displays the bot latency and API ping.');
 
