@@ -2,6 +2,7 @@ import { Events } from 'discord.js';
 import MsgCount from '../models/msgCount.js';
 import { getGuildSettings } from '../utils/getter.js';
 import msgCountList from '../data/msgCount.js';
+import msgRelayList from '../data/msgRelay.js';
 
 export const name = Events.MessageCreate;
 
@@ -9,6 +10,16 @@ export async function execute(message) {
   if (message.author.bot) return;
 
   const guildSettings = await getGuildSettings(message.guild.id);
+
+  // message relay feature
+  if (guildSettings.hasMsgRelay) {
+    for (const { keywords, responses } of msgRelayList) {
+      if (keywords.some((keyword) => message.content.includes(keyword))) {
+        const response = responses[Math.floor(Math.random() * responses.length)];
+        await message.reply(response);
+      }
+    }
+  }
 
   // message count feature
   if (guildSettings.hasMsgCount) {

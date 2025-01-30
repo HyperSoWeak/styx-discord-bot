@@ -2,10 +2,10 @@ import { SlashCommandBuilder } from 'discord.js';
 import { getGuildSettings } from '../../utils/getter.js';
 
 export const data = new SlashCommandBuilder()
-  .setName('set-msgcount')
-  .setDescription('Toggle message count feature.')
+  .setName('set-msgrelay')
+  .setDescription('Toggle message relay feature.')
   .addBooleanOption((option) =>
-    option.setName('enabled').setDescription('Enable or disable message count feature.').setRequired(true)
+    option.setName('enabled').setDescription('Enable or disable message relay feature.').setRequired(true)
   );
 
 export async function execute(interaction) {
@@ -13,12 +13,12 @@ export async function execute(interaction) {
   const guildId = interaction.guild.id;
 
   let guildSettings = await getGuildSettings(guildId);
-  guildSettings.hasMsgCount = enabled;
+  guildSettings.hasMsgRelay = enabled;
   await guildSettings.save();
 
   if (enabled) {
-    await interaction.reply('Message count feature has been enabled for this server.');
+    await interaction.reply('Message relay feature has been enabled for this server.');
   } else {
-    await interaction.reply('Message count feature has been disabled for this server.');
+    await interaction.reply('Message relay feature has been disabled for this server.');
   }
 }
