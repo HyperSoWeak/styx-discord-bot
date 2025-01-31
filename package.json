@@ -26,7 +26,8 @@
     "genius-lyrics": "^4.4.7",
     "libsodium-wrappers": "^0.7.15",
     "mongoose": "^8.9.5",
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^3.3.2",
+    "pinyin": "^4.0.0-alpha.2"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

@@ -3,6 +3,7 @@ import MsgCount from '../models/msgCount.js';
 import { getGuildSettings } from '../utils/getter.js';
 import msgCountList from '../data/msgCount.js';
 import msgRelayList from '../data/msgRelay.js';
+import rhymeTest from '../utils/rhymeTest.js';
 
 export const name = Events.MessageCreate;
 
@@ -10,6 +11,8 @@ export async function execute(message) {
   if (message.author.bot) return;
 
   const guildSettings = await getGuildSettings(message.guild.id);
+
+  rhymeTest(message);
 
   // message relay feature
   if (guildSettings.hasMsgRelay) {
