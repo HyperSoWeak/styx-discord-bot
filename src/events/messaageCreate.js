@@ -12,7 +12,7 @@ export async function execute(message) {
 
   const guildSettings = await getGuildSettings(message.guild.id);
 
-  rhymeTest(message);
+  if (guildSettings.hasRhymeTest) rhymeTest(message);
 
   // message relay feature
   if (guildSettings.hasMsgRelay) {
