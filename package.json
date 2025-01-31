@@ -4,6 +4,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node .",
+    "deploy": "node . > log.txt 2 >& 1 &",
     "dev": "node . test",
     "deploy-commands:guild": "node src/deploy-commands.js guild",
     "deploy-commands": "node src/deploy-commands.js global",
