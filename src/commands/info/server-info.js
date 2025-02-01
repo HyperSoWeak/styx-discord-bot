@@ -3,7 +3,7 @@ import { createEmbed } from '../../components/embed.js';
 import { getFormattedDate } from '../../utils/time.js';
 
 export const data = new SlashCommandBuilder()
-  .setName('server')
+  .setName('server-info')
   .setDescription('Provides information about the current server.');
 
 export async function execute(interaction) {
@@ -11,7 +11,7 @@ export async function execute(interaction) {
   const owner = await guild.fetchOwner();
 
   const serverEmbed = createEmbed(interaction)
-    .setTitle('Server Information')
+    .setTitle(':globe_with_meridians: Server Information')
     .setThumbnail(guild.iconURL({ dynamic: true }))
     .addFields(
       { name: 'Server Name', value: guild.name, inline: true },

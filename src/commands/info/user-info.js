@@ -4,7 +4,7 @@ import { createEmbed } from '../../components/embed.js';
 import { getFormattedDate } from '../../utils/time.js';
 
 export const data = new SlashCommandBuilder()
-  .setName('user')
+  .setName('user-info')
   .setDescription('Provides information about the user who invoked the command or another user if provided.')
   .addUserOption((option) =>
     option.setName('user').setDescription('The user you want to get information about').setRequired(false)
@@ -19,7 +19,7 @@ export async function execute(interaction) {
   const birthday = userInfo && userInfo.birthday ? getFormattedDate(userInfo.birthday) : 'No birthday set';
 
   const userEmbed = createEmbed(interaction)
-    .setTitle('User Information')
+    .setTitle(':technologist: User Information')
     .setThumbnail(targetUser.displayAvatarURL({ dynamic: true }))
     .addFields(
       { name: 'Username', value: `${targetUser.tag}`, inline: true },

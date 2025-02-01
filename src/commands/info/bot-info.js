@@ -2,7 +2,7 @@ import { SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.js';
 import { getFormattedDate } from '../../utils/time.js';
 
-export const data = new SlashCommandBuilder().setName('botinfo').setDescription('Provides information about the bot.');
+export const data = new SlashCommandBuilder().setName('bot-info').setDescription('Provides information about the bot.');
 
 export async function execute(interaction) {
   const bot = interaction.client;
