@@ -1,38 +1,44 @@
 const changelogEntries = [
   {
-    version: 'v1.2.3',
-    date: '2025-01-15',
-    description: [
-      'Added /set-timezone command to configure server timezone.',
-      'Fixed minor UI bugs in the settings page.',
-      'Improved time zone handling.',
-    ],
-  },
-  {
-    version: 'v1.2.2',
-    date: '2025-01-10',
-    description: [
-      'Fixed bugs with user birthday handling.',
-      'Now users can set and clear their birthday correctly.',
-      'Added error handling for invalid date inputs.',
-    ],
-  },
-  {
-    version: 'v1.2.1',
-    date: '2025-01-05',
-    description: [
-      'Improved error handling and logging.',
-      'Better error messages for server settings commands.',
-      'Optimized database queries.',
-    ],
-  },
-  {
     version: 'v1.2.0',
-    date: '2025-01-01',
+    date: '2025-02-02',
     description: [
-      'Initial release with basic server settings and user profile features.',
-      'Added support for birthday setting.',
-      'Initial version of the changelog command.',
+      'Added changelog command.',
+      'Added server-settings command.',
+      'Added user birthday settings.',
+      'Added server timezone settings.',
+      'Renamed some commands for consistency.',
+      'Refactored code for better modularity.',
+    ],
+  },
+  {
+    version: 'v1.1.0',
+    date: '2025-01-30',
+    description: [
+      'Added lyrics command.',
+      'Added message relay feature.',
+      'Added rhyme test feature.',
+      'Modified message count feature.',
+    ],
+  },
+  {
+    version: 'v1.0.1',
+    date: '2025-01-30',
+    description: [
+      'Added music bot feature.',
+      'Added ntueat command.',
+      'Added randint and choose commands.',
+      'Added message count feature.',
+      'Fixed bugs in the ping command.',
+    ],
+  },
+  {
+    version: 'v1.0,0',
+    date: '2025-01-28',
+    description: [
+      'Initial project setup with basic bot functionality.',
+      'Added basic commands like ping, info, and server.',
+      'Set up the project structure and configuration.',
     ],
   },
 ];
