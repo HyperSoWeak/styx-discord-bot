@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { getGuildSettings } from '../../utils/getter.js';
+import { createInfoEmbed } from '../../components/embed.js';
 
 export const data = new SlashCommandBuilder()
   .setName('set-msgcount')
@@ -16,9 +17,13 @@ export async function execute(interaction) {
   guildSettings.hasMsgCount = enabled;
   await guildSettings.save();
 
-  if (enabled) {
-    await interaction.reply('Message count feature has been enabled for this server.');
-  } else {
-    await interaction.reply('Message count feature has been disabled for this server.');
-  }
+  const embed = createInfoEmbed(
+    interaction,
+    'success',
+    enabled
+      ? 'Message count feature has been **enabled** for this server.'
+      : 'Message count feature has been **disabled** for this server.'
+  );
+
+  await interaction.reply({ embeds: [embed] });
 }
