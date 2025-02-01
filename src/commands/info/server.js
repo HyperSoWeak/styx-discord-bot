@@ -1,5 +1,6 @@
 import { SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.js';
+import { getFormattedDate } from '../../utils/time.js';
 
 export const data = new SlashCommandBuilder()
   .setName('server')
@@ -17,7 +18,7 @@ export async function execute(interaction) {
       { name: 'Server ID', value: guild.id, inline: true },
       { name: 'Owner', value: `${owner.user.tag}`, inline: true },
       { name: 'Total Members', value: `${guild.memberCount}`, inline: true },
-      { name: 'Creation Date', value: guild.createdAt.toDateString(), inline: true },
+      { name: 'Creation Date', value: getFormattedDate(guild.createdAt), inline: true },
       { name: 'Boost Level', value: `${guild.premiumTier}`, inline: true },
       { name: 'Boosters', value: `${guild.premiumSubscriptionCount}`, inline: true },
       { name: 'Region', value: guild.region || 'Unknown', inline: true }
