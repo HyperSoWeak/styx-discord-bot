@@ -1,5 +1,5 @@
 import { Events } from 'discord.js';
-import MsgCount from '../models/msgCount.js';
+import MsgCount from '../models/MsgCount.js';
 import { getGuildSettings } from '../utils/getter.js';
 import msgCountList from '../data/msgCount.js';
 import msgRelayList from '../data/msgRelay.js';

@@ -1,4 +1,4 @@
-import GuildSettings from '../models/guildSettings.js';
+import GuildSettings from '../models/GuildSettings.js';
 
 export async function getGuildSettings(guildId) {
   let guildSettings = await GuildSettings.findOne({ guildId });
