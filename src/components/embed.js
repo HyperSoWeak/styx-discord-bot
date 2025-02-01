@@ -21,5 +21,7 @@ export function createInfoEmbed(interaction, type, message) {
         .setTitle(':white_check_mark: Success')
         .setColor('#00ff00')
         .setDescription(message);
+    case 'info':
+      return createEmbed(interaction).setTitle(':information_source: Info').setColor('#0099ff').setDescription(message);
   }
 }

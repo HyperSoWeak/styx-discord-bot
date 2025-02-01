@@ -8,7 +8,8 @@ export async function execute(interaction) {
   const embed1 = createInfoEmbed(interaction, 'success', 'This is a success message.');
   const embed2 = createInfoEmbed(interaction, 'error', 'This is an error message.');
   const embed3 = createInfoEmbed(interaction, 'warning', 'This is a warning message.');
-  await interaction.reply({ embeds: [embed1, embed2, embed3] });
+  const embed4 = createInfoEmbed(interaction, 'info', 'This is an info message.');
+  await interaction.reply({ embeds: [embed1, embed2, embed3, embed4] });
 
   // const yes = new ButtonBuilder().setCustomId('Yes').setLabel('Yes').setStyle(ButtonStyle.Primary);
   // const no = new ButtonBuilder().setCustomId('No').setLabel('No').setStyle(ButtonStyle.Secondary);
