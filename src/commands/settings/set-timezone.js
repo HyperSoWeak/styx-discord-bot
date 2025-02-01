@@ -9,7 +9,7 @@ export const data = new SlashCommandBuilder()
   .addStringOption((option) =>
     option
       .setName('timezone')
-      .setDescription('Provide the timezone in IANA format (e.g., Asia/Taipei, America/New_York).')
+      .setDescription('Provide the timezone in IANA format (e.g., Asia/Taipei, Etc/GMT+8).')
       .setRequired(true)
   );
 
@@ -23,10 +23,9 @@ export async function execute(interaction) {
         createInfoEmbed(
           interaction,
           'error',
-          'Invalid timezone provided. Please use a valid IANA timezone (e.g., Asia/Taipei, America/New_York).\nFor a list of valid timezones, see: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'
+          'Invalid timezone provided. Please use a valid IANA timezone (e.g., Asia/Taipei, Etc/GMT+8).\nFor a list of valid timezones, see: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones'
         ),
       ],
-      flags: MessageFlags.Ephemeral,
     });
   }
 
@@ -38,6 +37,5 @@ export async function execute(interaction) {
 
   interaction.reply({
     embeds: [createInfoEmbed(interaction, 'success', `Timezone has been updated to **${updatedGuild.timezone}**.`)],
-    flags: MessageFlags.Ephemeral,
   });
 }
