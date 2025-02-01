@@ -20,8 +20,7 @@ export async function execute(interaction) {
       { name: 'Total Members', value: `${guild.memberCount}`, inline: true },
       { name: 'Creation Date', value: getFormattedDate(guild.createdAt), inline: true },
       { name: 'Boost Level', value: `${guild.premiumTier}`, inline: true },
-      { name: 'Boosters', value: `${guild.premiumSubscriptionCount}`, inline: true },
-      { name: 'Region', value: guild.region || 'Unknown', inline: true }
+      { name: 'Boosters', value: `${guild.premiumSubscriptionCount}`, inline: true }
     );
 
   await interaction.reply({ embeds: [serverEmbed] });
