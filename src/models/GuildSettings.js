@@ -5,6 +5,7 @@ const guildSettingsSchema = new mongoose.Schema({
   hasMsgCount: { type: Boolean, default: true },
   hasMsgRelay: { type: Boolean, default: true },
   hasRhymeTest: { type: Boolean, default: true },
+  timezone: { type: String, default: 'UTC' },
 });
 
 const GuildSettings = mongoose.model('GuildSettings', guildSettingsSchema);

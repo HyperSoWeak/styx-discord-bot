@@ -26,7 +26,9 @@
     "ffmpeg-static": "^5.2.0",
     "genius-lyrics": "^4.4.7",
     "libsodium-wrappers": "^0.7.15",
+    "moment-timezone": "^0.5.47",
     "mongoose": "^8.9.5",
+    "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "pinyin": "^4.0.0-alpha.2"
   },
