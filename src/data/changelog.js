@@ -33,7 +33,7 @@ const changelogEntries = [
     ],
   },
   {
-    version: 'v1.0,0',
+    version: 'v1.0.0',
     date: '2025-01-28',
     description: [
       'Initial project setup with basic bot functionality.',
