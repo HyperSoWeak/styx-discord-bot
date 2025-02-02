@@ -20,11 +20,11 @@ class ImplementedCommand implements Command {
 
     const guildSettings = await GuildSettings.findOneAndUpdate({ guildId }, { guildId }, { new: true, upsert: true });
 
-    if (!channel.isSendable()) {
-      return replyInfoEmbed(interaction, 'error', 'Please provide a channel that I can send messages to.');
-    }
-
     if (channel) {
+      if (!channel.isSendable()) {
+        return replyInfoEmbed(interaction, 'error', 'Please provide a channel that I can send messages to.');
+      }
+
       guildSettings.announcementChannel = channel.id;
       await guildSettings.save();
       await replyInfoEmbed(
