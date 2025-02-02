@@ -4,10 +4,10 @@
   "main": "src/index.js",
   "scripts": {
     "start": "ts-node src/index.ts",
-    "deploy": "ts-node src/index.ts > log.txt 2>&1 &",
+    "deploy": "npx tsx src/index.ts > log.txt 2>&1 &",
     "dev": "ts-node src/index.ts test",
     "deploy-commands:guild": "ts-node src/deploy-commands.ts guild",
-    "deploy-commands": "ts-node src/deploy-commands.ts global",
+    "deploy-commands": "npx tsx src/deploy-commands.ts global",
     "test:deploy-commands:guild": "ts-node src/deploy-commands.ts guild test",
     "test:deploy-commands": "ts-node src/deploy-commands.ts global test"
   },
@@ -31,7 +31,7 @@
     "mongoose": "^8.9.5",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
-    "pinyin": "^4.0.0-alpha.2"
+    "pinyin": "^2.11.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",
@@ -39,6 +39,7 @@
     "@types/pinyin": "^2.10.2",
     "eslint": "^9.19.0",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
     "typescript": "^5.7.3"
   }
 }
