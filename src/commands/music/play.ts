@@ -1,11 +1,16 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import musicManager from '../../managers/musicManager.ts';
+import type { Command } from '../../types/command.ts';
 
-export const data = new SlashCommandBuilder()
-  .setName('play')
-  .setDescription('Play a song or playlist.')
-  .addStringOption((option) => option.setName('query').setDescription('Song or URL to play').setRequired(true));
+class ImplementedCommand implements Command {
+  data = new SlashCommandBuilder()
+    .setName('play')
+    .setDescription('Play a song or playlist.')
+    .addStringOption((option) => option.setName('query').setDescription('Song or URL to play').setRequired(true));
 
-export async function execute(interaction: any) {
-  musicManager.play(interaction);
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    musicManager.play(interaction);
+  }
 }
+
+export default new ImplementedCommand();

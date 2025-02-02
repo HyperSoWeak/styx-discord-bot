@@ -1,10 +1,11 @@
 import chalk from 'chalk';
-import { REST, Routes, APIApplicationCommand } from 'discord.js';
+import { REST, Routes } from 'discord.js';
 import { readdirSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import type { Config } from './types/config.ts';
 import type { Token } from './types/token.ts';
+import type { APIApplicationCommand } from 'discord.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -29,11 +30,11 @@ const commandFolders = readdirSync(foldersPath);
 
 for (const folder of commandFolders) {
   const commandsPath = join(foldersPath, folder);
-  const commandFiles = readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+  const commandFiles = readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
 
   for (const file of commandFiles) {
     const filePath = join(commandsPath, file);
-    const command = await import(filePath);
+    const { default: command } = await import(filePath);
 
     if ('data' in command && 'execute' in command) {
       commands.push(command.data.toJSON());

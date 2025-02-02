@@ -7,6 +7,7 @@ import chalk from 'chalk';
 import type { Config } from './types/config.ts';
 import type { Token } from './types/token.ts';
 import type { CustomClient } from './types/customClient.ts';
+import type { Command } from './types/command.ts';
 
 const args = process.argv.slice(2);
 const isTest = args[0] === 'test';
@@ -37,7 +38,7 @@ for (const folder of commandFolders) {
   const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
   for (const file of commandFiles) {
     const filePath = path.join(commandsPath, file);
-    const command = await import(filePath);
+    const { default: command } = await import(filePath);
     if ('data' in command && 'execute' in command) {
       client.commands.set(command.data.name, command);
     } else {

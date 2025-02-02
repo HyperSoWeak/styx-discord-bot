@@ -1,8 +1,13 @@
-import { SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import musicManager from '../../managers/musicManager.ts';
+import type { Command } from '../../types/command.ts';
 
-export const data = new SlashCommandBuilder().setName('pause').setDescription('Pause the current song.');
+class ImplementedCommand implements Command {
+  data = new SlashCommandBuilder().setName('pause').setDescription('Pause the current song.');
 
-export async function execute(interaction: any) {
-  musicManager.pause(interaction);
+  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    musicManager.pause(interaction);
+  }
 }
+
+export default new ImplementedCommand();
