@@ -7,8 +7,14 @@ interface ChangelogEntry {
 const changelogEntries: ChangelogEntry[] = [
   {
     version: 'v1.2.2',
-    date: '2025-02-02',
-    description: ['Added command interface for better command handling.', 'Added README.md and LICENSE file.'],
+    date: '2025-02-03',
+    description: [
+      'Added birthday celebration feature.',
+      'Added README.md and LICENSE file.',
+      'Modified info commands.',
+      'Refactored command interface for better command handling.',
+      'Refactored code for better modularity.',
+    ],
   },
   {
     version: 'v1.2.1',
