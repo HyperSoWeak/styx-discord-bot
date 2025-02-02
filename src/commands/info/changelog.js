@@ -65,7 +65,7 @@ export async function execute(interaction) {
   });
 
   collector.on('end', async () => {
-    await sentMessage.edit({
+    await sentMessage.resource.message.edit({
       components: [],
     });
   });
