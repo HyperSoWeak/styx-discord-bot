@@ -6,13 +6,18 @@ interface ChangelogEntry {
 
 const changelogEntries: ChangelogEntry[] = [
   {
+    version: 'v1.2.2',
+    date: '2025-02-02',
+    description: ['Added command interface for better command handling.', 'Added README.md and LICENSE file.'],
+  },
+  {
     version: 'v1.2.1',
     date: '2025-02-02',
     description: ['Switched to TypeScript for better type safety.', 'Fixed some typos in the code.'],
   },
   {
     version: 'v1.2.0',
-    date: '2025-02-02',
+    date: '2025-02-01',
     description: [
       'Added changelog command.',
       'Added server-settings command.',

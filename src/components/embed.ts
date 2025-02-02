@@ -1,4 +1,4 @@
-import { EmbedBuilder, CommandInteraction } from 'discord.js';
+import { EmbedBuilder, CommandInteraction, MessageFlags } from 'discord.js';
 
 export function createEmbed(interaction: CommandInteraction, footer: string | null = null): EmbedBuilder {
   return new EmbedBuilder()
@@ -28,4 +28,16 @@ export function createInfoEmbed(
     case 'info':
       return createEmbed(interaction).setTitle(':information_source: Info').setColor('#0099ff').setDescription(message);
   }
+}
+
+export async function replyInfoEmbed(
+  interaction: CommandInteraction,
+  type: 'warning' | 'error' | 'success' | 'info',
+  message: string,
+  ephemeral: Boolean = false
+) {
+  await interaction.reply({
+    embeds: [createInfoEmbed(interaction, type, message)],
+    flags: ephemeral ? MessageFlags.Ephemeral : undefined,
+  });
 }
