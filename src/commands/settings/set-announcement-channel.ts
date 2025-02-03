@@ -1,4 +1,10 @@
-import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder, TextChannel } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  InteractionContextType,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+  TextChannel,
+} from 'discord.js';
 import GuildSettings from '../../models/GuildSettings.ts';
 import type { Command } from '../../types/command.ts';
 import { replyInfoEmbed } from '../../components/embed.ts';
@@ -13,6 +19,7 @@ class ImplementedCommand implements Command {
         .setDescription('The channel to set for announcements (leave empty to clear)')
         .setRequired(false)
     )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {

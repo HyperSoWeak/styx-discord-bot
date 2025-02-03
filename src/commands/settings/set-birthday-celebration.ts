@@ -1,4 +1,9 @@
-import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  InteractionContextType,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from 'discord.js';
 import { replyInfoEmbed } from '../../components/embed.ts';
 import GuildSettings from '../../models/GuildSettings.ts';
 import type { Command } from '../../types/command.ts';
@@ -10,6 +15,7 @@ class ImplementedCommand implements Command {
     .addBooleanOption((option) =>
       option.setName('enabled').setDescription('Enable or disable birthday celebration feature.').setRequired(true)
     )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction) {

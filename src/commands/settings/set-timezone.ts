@@ -1,4 +1,9 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, InteractionContextType } from 'discord.js';
+import {
+  SlashCommandBuilder,
+  ChatInputCommandInteraction,
+  InteractionContextType,
+  PermissionFlagsBits,
+} from 'discord.js';
 import GuildSettings from '../../models/GuildSettings.ts';
 import moment from 'moment-timezone';
 import { createInfoEmbed } from '../../components/embed.ts';
@@ -14,6 +19,7 @@ class ImplementedCommand implements Command {
         .setDescription('Provide the timezone in IANA format (e.g., Asia/Taipei, Etc/GMT+8).')
         .setRequired(true)
     )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction) {

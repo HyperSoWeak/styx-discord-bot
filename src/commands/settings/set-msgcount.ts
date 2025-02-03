@@ -1,4 +1,9 @@
-import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  InteractionContextType,
+  PermissionFlagsBits,
+  SlashCommandBuilder,
+} from 'discord.js';
 import { getGuildSettings } from '../../utils/getter.ts';
 import { createInfoEmbed } from '../../components/embed.ts';
 import type { Command } from '../../types/command.ts';
@@ -10,6 +15,7 @@ class ImplementedCommand implements Command {
     .addBooleanOption((option) =>
       option.setName('enabled').setDescription('Enable or disable message count feature.').setRequired(true)
     )
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction) {
