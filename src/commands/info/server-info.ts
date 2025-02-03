@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
 import { getFormattedDate } from '../../utils/time.ts';
 import type { Command } from '../../types/command.ts';
@@ -6,7 +6,8 @@ import type { Command } from '../../types/command.ts';
 class ImplementedCommand implements Command {
   data = new SlashCommandBuilder()
     .setName('server-info')
-    .setDescription('Provides information about the current server.');
+    .setDescription('Provides information about the current server.')
+    .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const { guild } = interaction;

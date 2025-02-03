@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import Genius from 'genius-lyrics';
 import type { Command } from '../../types/command.ts';
 
@@ -8,7 +8,8 @@ class ImplementedCommand implements Command {
   data = new SlashCommandBuilder()
     .setName('lyrics')
     .setDescription('Get lyrics of the given song.')
-    .addStringOption((option) => option.setName('name').setDescription('Song name').setRequired(true));
+    .addStringOption((option) => option.setName('name').setDescription('Song name').setRequired(true))
+    .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     interaction.deferReply();

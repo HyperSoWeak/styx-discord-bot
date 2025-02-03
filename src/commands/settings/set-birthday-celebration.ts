@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { replyInfoEmbed } from '../../components/embed.ts';
 import GuildSettings from '../../models/GuildSettings.ts';
 import type { Command } from '../../types/command.ts';
@@ -9,7 +9,8 @@ class ImplementedCommand implements Command {
     .setDescription('Toggle birthday celebration feature.')
     .addBooleanOption((option) =>
       option.setName('enabled').setDescription('Enable or disable birthday celebration feature.').setRequired(true)
-    );
+    )
+    .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction) {
     const enabled = interaction.options.getBoolean('enabled');

@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
 import { getGuildSettings } from '../../utils/getter.ts';
 import { createInfoEmbed } from '../../components/embed.ts';
 import type { Command } from '../../types/command.ts';
@@ -9,7 +9,8 @@ class ImplementedCommand implements Command {
     .setDescription('Toggle rhyme test feature.')
     .addBooleanOption((option) =>
       option.setName('enabled').setDescription('Enable or disable rhyme test feature.').setRequired(true)
-    );
+    )
+    .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction) {
     const enabled = interaction.options.getBoolean('enabled');

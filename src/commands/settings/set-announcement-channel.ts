@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, TextChannel } from 'discord.js';
+import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder, TextChannel } from 'discord.js';
 import GuildSettings from '../../models/GuildSettings.ts';
 import type { Command } from '../../types/command.ts';
 import { replyInfoEmbed } from '../../components/embed.ts';
@@ -12,7 +12,8 @@ class ImplementedCommand implements Command {
         .setName('channel')
         .setDescription('The channel to set for announcements (leave empty to clear)')
         .setRequired(false)
-    );
+    )
+    .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
     const channel = interaction.options.getChannel('channel') as TextChannel;
