@@ -3,13 +3,11 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "start": "npx tsx src/index.ts",
     "deploy": "npx tsx src/index.ts > log.txt 2>&1 &",
-    "dev": "ts-node src/index.ts test",
-    "deploy-commands:guild": "ts-node src/deploy-commands.ts guild",
+    "dev": "npx tsx src/index.ts test",
     "deploy-commands": "npx tsx src/deploy-commands.ts global",
-    "test:deploy-commands:guild": "ts-node src/deploy-commands.ts guild test",
-    "test:deploy-commands": "ts-node src/deploy-commands.ts global test"
+    "dev:deploy-commands": "npx tsx src/deploy-commands.ts guild test"
   },
   "keywords": [],
   "author": "HyperSoWeak",
