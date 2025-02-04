@@ -6,6 +6,17 @@ interface ChangelogEntry {
 
 const changelogEntries: ChangelogEntry[] = [
   {
+    version: 'v1.2.3',
+    date: '2025-02-05',
+    description: [
+      'Added vote-simple command.',
+      'Added github-contribution command.',
+      'Fixed permission issues in some commands.',
+      'Fixed bugs of the birthday celebration feature.',
+      'Fixed bot crash due to expired interactions.',
+    ],
+  },
+  {
     version: 'v1.2.2',
     date: '2025-02-03',
     description: [
