@@ -1,4 +1,4 @@
-import { Events, MessageFlags, Collection, BaseInteraction } from 'discord.js';
+import { Events, MessageFlags, Collection, BaseInteraction, DiscordAPIError } from 'discord.js';
 import { isDeveloper } from '../utils/checker.ts';
 import type { CustomClient } from '../types/customClient.ts';
 
@@ -55,6 +55,12 @@ export async function execute(interaction: BaseInteraction) {
     setTimeout(() => timestamps.delete(interaction.user.id), cooldownAmount);
   } catch (error) {
     console.error(error);
+
+    if (error instanceof DiscordAPIError && error.code === 10062) {
+      console.warn('Interaction is no longer valid. Skipping reply...');
+      return;
+    }
+
     if (interaction.replied || interaction.deferred) {
       await interaction.followUp({
         content: 'There was an error while executing this command!',
