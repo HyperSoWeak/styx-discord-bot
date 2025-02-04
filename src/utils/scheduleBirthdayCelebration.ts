@@ -35,6 +35,9 @@ function scheduleBirthdayCelebration(client: Client) {
         });
 
         for (const user of usersWithBirthdays) {
+          const member = await guild.members.fetch(user.userId).catch(() => null);
+          if (!member) continue;
+
           const birthdayChannelId = guildSettings.announcementChannel;
           const channel = guild.channels.cache.get(birthdayChannelId) as TextChannel;
 
@@ -90,25 +93,7 @@ async function sendBirthdayMessage(channel: TextChannel, userId: string) {
     files: [randomImage],
   });
 
-  const celebrationEmojis = [
-    '🎉',
-    '🎁',
-    '💖',
-    '🎂',
-    '🥳',
-    '🎈',
-    '✨',
-    '🍰',
-    '🌟',
-    '🎊',
-    '🎶',
-    '🪅',
-    '🍾',
-    '🧁',
-    '🥂',
-    '🎤',
-    '🪇',
-  ];
+  const celebrationEmojis = ['🎉', '🎁', '💖', '🎂', '🥳', '🎈', '✨', '🍰', '🌟', '🎊', '🪅', '🧁', '🥂'];
 
   const randomEmojis = celebrationEmojis.sort(() => Math.random() - 0.5).slice(0, 7);
   for (const emoji of randomEmojis) {
