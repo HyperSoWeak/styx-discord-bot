@@ -14,12 +14,15 @@ class ImplementedCommand implements Command {
   data = new SlashCommandBuilder().setName('test').setDescription('For testing purposes.');
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const embed1 = createInfoEmbed(interaction, 'success', 'This is a success message.');
-    const embed2 = createInfoEmbed(interaction, 'error', 'This is an error message.');
-    const embed3 = createInfoEmbed(interaction, 'warning', 'This is a warning message.');
-    const embed4 = createInfoEmbed(interaction, 'info', 'This is an info message.');
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+    await interaction.reply('This is a test message.');
 
-    await interaction.reply({ embeds: [embed1, embed2, embed3, embed4] });
+    // const embed1 = createInfoEmbed(interaction, 'success', 'This is a success message.');
+    // const embed2 = createInfoEmbed(interaction, 'error', 'This is an error message.');
+    // const embed3 = createInfoEmbed(interaction, 'warning', 'This is a warning message.');
+    // const embed4 = createInfoEmbed(interaction, 'info', 'This is an info message.');
+
+    // await interaction.reply({ embeds: [embed1, embed2, embed3, embed4] });
 
     // Example of buttons and interaction collection (commented out for now)
     // const yes = new ButtonBuilder().setCustomId('Yes').setLabel('Yes').setStyle(ButtonStyle.Primary);

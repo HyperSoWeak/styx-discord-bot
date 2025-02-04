@@ -1,6 +1,7 @@
 import { Events, MessageFlags, Collection, BaseInteraction, DiscordAPIError } from 'discord.js';
 import { isDeveloper } from '../utils/checker.ts';
 import type { CustomClient } from '../types/customClient.ts';
+import chalk from 'chalk';
 
 export const name = Events.InteractionCreate;
 
@@ -57,7 +58,12 @@ export async function execute(interaction: BaseInteraction) {
     console.error(error);
 
     if (error instanceof DiscordAPIError && error.code === 10062) {
-      console.warn('Interaction is no longer valid. Skipping reply...');
+      console.log(
+        chalk.red(
+          '[Error] Interaction is no longer valid. Skipping reply... Error occurred in command:',
+          command.data.name
+        )
+      );
       return;
     }
 
