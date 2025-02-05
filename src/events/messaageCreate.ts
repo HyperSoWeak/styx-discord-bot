@@ -1,9 +1,11 @@
 import { Events, Message } from 'discord.js';
 import MsgCount from '../models/MsgCount.ts';
 import { getGuildSettings } from '../utils/getter.ts';
+import { isDeveloper } from '../utils/checker.ts';
 import msgCountList from '../data/msgCount.ts';
 import msgRelayList from '../data/msgRelay.ts';
 import rhymeTest from '../utils/rhymeTest.ts';
+import chalk from 'chalk';
 
 export const name = Events.MessageCreate;
 
@@ -45,6 +47,13 @@ async function handleMsgCount(message: Message) {
 
 export async function execute(message: Message) {
   if (message.author.bot) return;
+
+  const exitCommand = '!!exit';
+  if (message.content === exitCommand && isDeveloper(message.author.id)) {
+    await message.reply('Goodbye!');
+    console.log(chalk.red('Terminated by developer'));
+    process.exit();
+  }
 
   if (!message.guild) return;
   const guildSettings = await getGuildSettings(message.guild.id);

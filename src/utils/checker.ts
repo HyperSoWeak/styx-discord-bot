@@ -8,6 +8,6 @@ const __dirname = dirname(__filename);
 
 const config: Config = JSON.parse(readFileSync(join(__dirname, '../config.json'), 'utf-8'));
 
-export async function isDeveloper(userId: string): Promise<boolean> {
+export function isDeveloper(userId: string): boolean {
   return config.developers.some((dev) => dev.id === userId);
 }
