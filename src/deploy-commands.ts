@@ -21,6 +21,8 @@ if (isTest) {
   token.client = token.testClient;
   config.client.id = config.client.testId;
   console.log(chalk.cyan('Deploying to test client.'));
+} else {
+  console.log(chalk.magenta('Deploying to main client.'));
 }
 
 const commands: APIApplicationCommand[] = [];
@@ -39,7 +41,7 @@ for (const folder of commandFolders) {
     if ('data' in command && 'execute' in command) {
       commands.push(command.data.toJSON());
     } else {
-      console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+      console.log(chalk.yellow(`The command at ${filePath} is missing a required "data" or "execute" property.`));
     }
   }
 }
@@ -56,12 +58,12 @@ async function deployCommands(deployToGuild = false) {
       data = (await rest.put(Routes.applicationGuildCommands(config.client.id, config.testGuildId), {
         body: commands,
       })) as APIApplicationCommand[];
-      console.log(`Successfully reloaded ${data.length} application (/) commands to guild.`);
+      console.log(chalk.green(`Successfully reloaded ${data.length} application (/) commands to guild.`));
     } else {
       data = (await rest.put(Routes.applicationCommands(config.client.id), {
         body: commands,
       })) as APIApplicationCommand[];
-      console.log(`Successfully reloaded ${data.length} application (/) commands globally.`);
+      console.log(chalk.green(`Successfully reloaded ${data.length} application (/) commands globally.`));
     }
   } catch (error) {
     console.error(error);
@@ -74,10 +76,10 @@ async function deleteCommands(deployToGuild = false) {
 
     if (deployToGuild) {
       await rest.put(Routes.applicationGuildCommands(config.client.id, config.testGuildId), { body: [] });
-      console.log(`Successfully deleted application (/) commands from guild.`);
+      console.log(chalk.green(`Successfully deleted application (/) commands from guild.`));
     } else {
       await rest.put(Routes.applicationCommands(config.client.id), { body: [] });
-      console.log(`Successfully deleted application (/) commands globally.`);
+      console.log(chalk.green(`Successfully deleted application (/) commands globally.`));
     }
   } catch (error) {
     console.error(error);
