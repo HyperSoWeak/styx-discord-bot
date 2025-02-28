@@ -59,6 +59,6 @@ export async function execute(message: Message) {
   const guildSettings = await getGuildSettings(message.guild.id);
 
   if (guildSettings.hasRhymeTest) handleRhymeTest(message);
-  if (guildSettings.hasRhymeTest) handleMsgRelay(message);
-  if (guildSettings.hasRhymeTest) handleMsgCount(message);
+  if (guildSettings.hasMsgRelay) handleMsgRelay(message);
+  if (guildSettings.hasMsgCount) handleMsgCount(message);
 }
