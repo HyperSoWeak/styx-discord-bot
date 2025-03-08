@@ -5,4 +5,5 @@ export interface CustomClient extends Client {
   commands: Collection<string, any>;
   cooldowns: Collection<string, any>;
   config: Config;
+  isTest?: boolean;
 }

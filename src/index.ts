@@ -18,13 +18,14 @@ const __dirname = path.dirname(__filename);
 const config: Config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf-8'));
 const token: Token = JSON.parse(fs.readFileSync(path.join(__dirname, 'token.json'), 'utf-8'));
 
-if (isTest) {
-  token.client = token.testClient;
-}
-
 const client = new Client({
   intents: Object.values(GatewayIntentBits) as number[],
 }) as CustomClient;
+
+if (isTest) {
+  token.client = token.testClient;
+  client.isTest = true;
+}
 
 client.commands = new Collection();
 client.cooldowns = new Collection();

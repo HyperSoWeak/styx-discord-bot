@@ -8,14 +8,23 @@ import {
 } from 'discord.js';
 import { createInfoEmbed } from '../../components/embed.ts';
 import type { Command } from '../../types/command.ts';
+import { getEmoji } from '../../utils/getter.ts';
 
 class ImplementedCommand implements Command {
   ownerOnly = true;
   data = new SlashCommandBuilder().setName('test').setDescription('For testing purposes.');
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-    await interaction.reply('This is a test message.');
+    // await new Promise((resolve) => setTimeout(resolve, 10000));
+    let message =
+      getEmoji(interaction.client, 'pofang_bronze') +
+      ' ' +
+      getEmoji(interaction.client, 'pofang_silver') +
+      ' ' +
+      getEmoji(interaction.client, 'pofang_gold') +
+      ' ' +
+      getEmoji(interaction.client, 'pofang_diamond');
+    await interaction.reply(message);
 
     // const embed1 = createInfoEmbed(interaction, 'success', 'This is a success message.');
     // const embed2 = createInfoEmbed(interaction, 'error', 'This is an error message.');
