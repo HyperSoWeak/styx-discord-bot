@@ -12,18 +12,21 @@ import type { Command } from '../../types/command.ts';
 import { getEmoji } from '../../utils/getter.ts';
 import achievements from '../../data/achievements.ts';
 import MsgCount from '../../models/MsgCount.ts';
+import { achievementManager } from '../../managers/AchievementManager.ts';
 
 class ImplementedCommand implements Command {
   ownerOnly = true;
   data = new SlashCommandBuilder().setName('test').setDescription('For testing purposes.');
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const result = await MsgCount.findOneAndUpdate(
-      { userId: interaction.user.id },
-      { $set: { pofangCount: 48 } },
-      { new: true }
-    );
-    console.log('Updated document:', result);
+    achievementManager.grantAchievement(interaction.user.id, 'pofang_silver');
+
+    // const result = await MsgCount.findOneAndUpdate(
+    //   { userId: interaction.user.id },
+    //   { $set: { pofangCount: 48 } },
+    //   { new: true }
+    // );
+    // console.log('Updated document:', result);
 
     const achievement = achievements[0];
 
