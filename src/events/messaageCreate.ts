@@ -6,6 +6,7 @@ import msgCountList from '../data/msgCount.ts';
 import msgRelayList from '../data/msgRelay.ts';
 import rhymeTest from '../utils/rhymeTest.ts';
 import chalk from 'chalk';
+import { achievementManager } from '../managers/AchievementManager.ts';
 
 export const name = Events.MessageCreate;
 
@@ -23,7 +24,7 @@ async function handleMsgRelay(message: Message) {
 }
 
 async function handleMsgCount(message: Message) {
-  for (const { keywords, responses, counter } of msgCountList) {
+  for (const { name, keywords, responses, counter } of msgCountList) {
     if (keywords.some((keyword) => message.content.includes(keyword))) {
       try {
         let userMsgCount = (await MsgCount.findOne({ userId: message.author.id })) as any;
@@ -38,6 +39,11 @@ async function handleMsgCount(message: Message) {
 
         const response = responses(message, userMsgCount, counter);
         await message.reply(response);
+
+        // handle achievement
+        if (name === 'pofang') {
+          achievementManager.handlePofang(message.author.id, userMsgCount[counter], message.channel);
+        }
       } catch (err) {
         console.error('Error while updating user count:', err);
       }

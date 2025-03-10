@@ -11,12 +11,29 @@ import { createEmbed, createInfoEmbed } from '../../components/embed.ts';
 import type { Command } from '../../types/command.ts';
 import { getEmoji } from '../../utils/getter.ts';
 import achievements from '../../data/achievements.ts';
+import MsgCount from '../../models/MsgCount.ts';
 
 class ImplementedCommand implements Command {
   ownerOnly = true;
   data = new SlashCommandBuilder().setName('test').setDescription('For testing purposes.');
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+    const result = await MsgCount.findOneAndUpdate(
+      { userId: interaction.user.id },
+      { $set: { pofangCount: 48 } },
+      { new: true }
+    );
+    console.log('Updated document:', result);
+
+    const achievement = achievements[0];
+
+    const achievementText = `🎉 <@${interaction.user.id}> 已解鎖成就**【${achievement.emoji} ${achievement.name}】**`;
+    const achievementEmbed = new EmbedBuilder().setColor('#FFD700').setDescription(achievement.description).setFooter({
+      text: `使用 /achievements 查看更多成就`,
+    });
+
+    await interaction.reply({ content: achievementText, embeds: [achievementEmbed] });
+
     // await new Promise((resolve) => setTimeout(resolve, 10000));
     // const message =
     //   getEmoji('pofang_bronze') +
@@ -26,46 +43,6 @@ class ImplementedCommand implements Command {
     //   getEmoji('pofang_gold') +
     //   ' ' +
     //   getEmoji('pofang_diamond');
-
-    const achievement = achievements[0];
-
-    //     const achievementText = `**Achievement Unlocked!**
-
-    // ${achievement.emoji} **${achievement.name}**
-    // 📜 ${achievement.description}
-
-    // Keep it up, <@${interaction.user.id}>!`;
-
-    const achievementText = `🎉 <@${interaction.user.id}> 已解鎖成就**【${achievement.emoji} ${achievement.name}】**`;
-    // const achievementText = `<@${interaction.user.id}> 已解鎖成就**【${achievement.emoji} ${achievement.name}】**`;
-
-    const embed = new EmbedBuilder().setColor('#FFD700').setDescription(achievement.description).setFooter({
-      text: `使用 /achievements 查看更多成就`,
-    });
-
-    await interaction.reply({ content: achievementText, embeds: [embed] });
-    // await interaction.reply({ embeds: [embed] });
-
-    // const achievementEmbed = createEmbed(interaction)
-    //   .setTitle('🎉 **Achievement Unlocked!** 🎉')
-    //   .setColor('#FFD700')
-    //   .addFields(
-    //     {
-    //       name: `${achievement.emoji} **${achievement.name}**`, // Achievement name with emoji
-    //       value: `${achievement.description}`, // Description of the achievement
-    //       inline: false,
-    //     },
-    //     {
-    //       name: '✨ **Keep it up!** ✨', // Encouraging message
-    //       value: `Congratulations, <@${interaction.user.id}>! 🎉`, // Tagging the user
-    //       inline: false,
-    //     }
-    //   )
-    //   .setFooter({
-    //     text: `Achievement Unlocked!`,
-    //   });
-
-    // await interaction.reply({ embeds: [achievementEmbed] });
 
     // const embed1 = createInfoEmbed(interaction, 'success', 'This is a success message.');
     // const embed2 = createInfoEmbed(interaction, 'error', 'This is an error message.');

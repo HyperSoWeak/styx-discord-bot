@@ -1,6 +1,7 @@
 import { Message } from 'discord.js';
 
 interface MsgCountEntry {
+  name: string;
   keywords: string[];
   responses: (message: Message, userMsgCount: Record<string, number>, counter: string) => string;
   counter: string;
@@ -8,6 +9,7 @@ interface MsgCountEntry {
 
 const msgCountList: MsgCountEntry[] = [
   {
+    name: 'pofang',
     keywords: ['破防', '破大防', '破房', '破大房'],
     responses: function (message: Message, userMsgCount: Record<string, number>, counter: string): string {
       const name = message.author.globalName;
@@ -29,6 +31,7 @@ const msgCountList: MsgCountEntry[] = [
     counter: 'pofangCount',
   },
   {
+    name: 'haoshuang',
     keywords: ['好爽', '爽啦', '爽拉'],
     responses: function (message: Message, userMsgCount: Record<string, number>, counter: string): string {
       const name = message.author.globalName;

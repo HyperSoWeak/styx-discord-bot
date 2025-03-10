@@ -1,4 +1,5 @@
 import GuildSettings from '../models/GuildSettings.ts';
+import { client } from '../index.ts';
 
 export async function getGuildSettings(guildId: string) {
   const guildSettings = await GuildSettings.findOneAndUpdate({ guildId }, { guildId }, { new: true, upsert: true });
@@ -24,6 +25,6 @@ const emojis: { [key: string]: { id: string; testId: string } } = {
   },
 };
 
-export function getEmoji(client: any, name: string) {
+export function getEmoji(name: string) {
   return `<:${name}:${client.isTest ? emojis[name].testId : emojis[name].id}>`;
 }
