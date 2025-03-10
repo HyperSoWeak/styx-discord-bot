@@ -18,9 +18,9 @@ async function getUserAchievements(userId: string): Promise<string> {
         const achievementDate = getFormattedDate(achievement.grantTime);
         const achievementData = achievements.find((a) => a.id === achievement.id) as Achievement;
         return (
-          `**${achievementData.emoji} ${achievementData.name}**\n` +
-          `> 📅 **獲得於** ${achievementDate}\n` +
-          `> ✨ *${achievementData.description}*\n`
+          `**【${achievementData.emoji} ${achievementData.name}**】\n` +
+          `📅 **獲得於** ${achievementDate}\n` +
+          `✨ *${achievementData.description}*\n`
         );
       })
       .join('\n');
