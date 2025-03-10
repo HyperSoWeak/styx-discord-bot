@@ -10,7 +10,7 @@ interface MsgCountEntry {
 const msgCountList: MsgCountEntry[] = [
   {
     name: 'pofang',
-    keywords: ['破防', '破大防', '破房', '破大房'],
+    keywords: ['破防', '破大防', '破房', '破大房', '🏚️', '破巨防'],
     responses: function (message: Message, userMsgCount: Record<string, number>, counter: string): string {
       const name = message.author.globalName;
       const count = userMsgCount[counter];
