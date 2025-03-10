@@ -8,19 +8,19 @@ export async function getGuildSettings(guildId: string) {
 
 const emojis: { [key: string]: { id: string; testId: string } } = {
   pofang_bronze: {
-    id: '',
+    id: '1348578585488654388',
     testId: '1348001652828798998',
   },
   pofang_silver: {
-    id: '',
+    id: '1348578628182605824',
     testId: '1348001707958861894',
   },
   pofang_gold: {
-    id: '',
+    id: '1348578641780543581',
     testId: '1348001718557741058',
   },
   pofang_diamond: {
-    id: '',
+    id: '1348578656187842572',
     testId: '1348001725818208336',
   },
 };
