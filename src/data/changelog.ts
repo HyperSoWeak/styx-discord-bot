@@ -6,6 +6,11 @@ interface ChangelogEntry {
 
 const changelogEntries: ChangelogEntry[] = [
   {
+    version: 'v1.4.0',
+    date: '2025-03-20',
+    description: ['Added achievement leaderboard command.', 'Added pofang leaderboard command.'],
+  },
+  {
     version: 'v1.3.0',
     date: '2025-03-10',
     description: ['Added achievement system.', 'Added cf-rating command.', 'Fixed message count feature not working.'],
