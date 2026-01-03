@@ -5,6 +5,7 @@ import { Client, Collection, GatewayIntentBits } from 'discord.js';
 import chalk from 'chalk';
 import { AppConfig, clientConfig } from './config/index.ts';
 import type { CustomClient } from './types/customClient.ts';
+import { loadCommands } from './utils/loader.ts';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,32 +19,6 @@ client.isTest = AppConfig.isTest;
 client.commands = new Collection();
 client.cooldowns = new Collection();
 client.config = clientConfig;
-
-// Function to load commands dynamically
-async function loadCommands() {
-  const foldersPath = path.join(__dirname, 'commands');
-  const commandFolders = fs.readdirSync(foldersPath);
-
-  for (const folder of commandFolders) {
-    const commandsPath = path.join(foldersPath, folder);
-    const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.ts'));
-    for (const file of commandFiles) {
-      const filePath = path.join(commandsPath, file);
-      try {
-        const { default: command } = await import(filePath);
-        if ('data' in command && 'execute' in command) {
-          client.commands.set(command.data.name, command);
-        } else {
-          console.log(
-            chalk.yellow(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`)
-          );
-        }
-      } catch (err) {
-        console.log(chalk.red(`[ERROR] Failed to import command at ${filePath}: ${err}`));
-      }
-    }
-  }
-}
 
 // Function to load events dynamically
 async function loadEvents() {
@@ -68,7 +43,11 @@ async function loadEvents() {
 // Log in to Discord and start the bot
 async function startBot() {
   try {
-    await loadCommands();
+    const commands = await loadCommands(path.join(__dirname, 'commands'));
+    for (const command of commands) {
+      client.commands.set(command.data.name, command);
+    }
+
     await loadEvents();
     await client.login(AppConfig.DISCORD_TOKEN);
     console.log(chalk.green('Bot logged in successfully!'));
