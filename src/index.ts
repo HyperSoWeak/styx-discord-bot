@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
-import musicManager from './managers/musicManager.ts';
+
 import chalk from 'chalk';
 import type { Config } from './types/config.ts';
 import type { Token } from './types/token.ts';
@@ -79,17 +79,13 @@ async function loadEvents() {
   }
 }
 
-// Initialize the music manager
-function initializeMusicManager() {
-  musicManager.init(client);
-}
+
 
 // Log in to Discord and start the bot
 async function startBot() {
   try {
     await loadCommands();
     await loadEvents();
-    initializeMusicManager();
     await client.login(token.client);
     console.log(chalk.green('Bot logged in successfully!'));
   } catch (err) {
