@@ -6,7 +6,9 @@
     "start": "NODE_ENV=production tsx src/index.ts",
     "dev": "NODE_ENV=development tsx src/index.ts",
     "deploy-commands": "tsx src/deploy-commands.ts",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "keywords": [],
   "author": "HyperSoWeak",
@@ -30,6 +32,8 @@
     "@types/node-cron": "^3.0.11",
     "@types/pinyin": "^2.10.2",
     "eslint": "^9.19.0",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.7.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3"
