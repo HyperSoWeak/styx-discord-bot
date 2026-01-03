@@ -36,7 +36,7 @@ function analyzeRhymes(text: string) {
   const lines = text.split(/[\s,，。；、]+/);
   let count = 0;
   let isDouble = false;
-  let rhymeList = [];
+  const rhymeList = [];
 
   for (let i = 1; i < lines.length; i++) {
     const line1 = lines[i - 1];
@@ -60,9 +60,7 @@ function analyzeRhymes(text: string) {
 
     if (count === 0) {
       isDouble = double;
-    } else {
-      if (isDouble && !double) break;
-    }
+    } else if (isDouble && !double) break;
 
     count++;
     if (isDouble) {

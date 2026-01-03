@@ -8,48 +8,50 @@ import chalk from 'chalk';
 function scheduleBirthdayCelebration(client: Client) {
   cron.schedule(
     '0 * * * *',
-    async () => {
-      const guilds = client.guilds.cache;
+    () => {
+      (async () => {
+        const guilds = client.guilds.cache;
 
-      for (const guild of guilds.values()) {
-        const guildId = guild.id;
+        for (const guild of guilds.values()) {
+          const guildId = guild.id;
 
-        const guildSettings = await GuildSettings.findOne({ guildId });
-        if (!guildSettings || !guildSettings.hasBirthdayCelebration || !guildSettings.announcementChannel) continue;
+          const guildSettings = await GuildSettings.findOne({ guildId });
+          if (!guildSettings || !guildSettings.hasBirthdayCelebration || !guildSettings.announcementChannel) continue;
 
-        const timezone = guildSettings.timezone || 'UTC';
-        const currentTime = moment().tz(timezone).format('HH:mm');
+          const timezone = guildSettings.timezone || 'UTC';
+          const currentTime = moment().tz(timezone).format('HH:mm');
 
-        if (currentTime !== '00:00') continue;
+          if (currentTime !== '00:00') continue;
 
-        const currentDate = moment().tz(timezone).format('MM-DD');
+          const currentDate = moment().tz(timezone).format('MM-DD');
 
-        const usersWithBirthdays = await UserInfo.find({
-          birthday: {
-            $exists: true,
-            $ne: null,
-          },
-          $expr: {
-            $eq: [{ $dateToString: { format: '%m-%d', date: '$birthday', timezone: 'UTC' } }, currentDate],
-          },
-        });
+          const usersWithBirthdays = await UserInfo.find({
+            birthday: {
+              $exists: true,
+              $ne: null,
+            },
+            $expr: {
+              $eq: [{ $dateToString: { format: '%m-%d', date: '$birthday', timezone: 'UTC' } }, currentDate],
+            },
+          });
 
-        for (const user of usersWithBirthdays) {
-          const member = await guild.members.fetch(user.userId).catch(() => null);
-          if (!member) continue;
+          for (const user of usersWithBirthdays) {
+            const member = await guild.members.fetch(user.userId).catch(() => null);
+            if (!member) continue;
 
-          const birthdayChannelId = guildSettings.announcementChannel;
-          const channel = guild.channels.cache.get(birthdayChannelId) as TextChannel;
+            const birthdayChannelId = guildSettings.announcementChannel;
+            const channel = guild.channels.cache.get(birthdayChannelId) as TextChannel;
 
-          if (channel) {
-            try {
-              await sendBirthdayMessage(channel, user.userId);
-            } catch (error) {
-              console.error('Error sending birthday message:', error);
+            if (channel) {
+              try {
+                await sendBirthdayMessage(channel, user.userId);
+              } catch (error) {
+                console.error('Error sending birthday message:', error);
+              }
             }
           }
         }
-      }
+      })().catch((err) => console.error('Error in birthday cron job:', err));
     },
     {
       timezone: 'UTC',

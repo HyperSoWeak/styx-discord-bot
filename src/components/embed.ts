@@ -34,7 +34,7 @@ export async function replyInfoEmbed(
   interaction: CommandInteraction,
   type: 'warning' | 'error' | 'success' | 'info',
   message: string,
-  ephemeral: Boolean = false
+  ephemeral = false
 ) {
   await interaction.reply({
     embeds: [createInfoEmbed(interaction, type, message)],

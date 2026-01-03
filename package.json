@@ -7,7 +7,7 @@
     "dev": "NODE_ENV=development tsx src/index.ts",
     "deploy-commands": "tsx src/deploy-commands.ts",
     "lint": "eslint .",
-    "format": "prettier --write .",
+    "format": "prettier --write --list-different .",
     "format:check": "prettier --check ."
   },
   "keywords": [],
@@ -36,6 +36,7 @@
     "prettier": "^3.7.4",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.3"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.51.0"
   }
 }

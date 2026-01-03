@@ -8,7 +8,7 @@ export const once = true;
 
 export async function execute(client: CustomClient) {
   console.log(`Ready! Logged in as ${client.user?.tag}`);
-  connectDB();
+  await connectDB();
 
   client.user?.setPresence({
     activities: [{ name: '你媽', type: ActivityType.Playing }],

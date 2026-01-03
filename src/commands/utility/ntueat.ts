@@ -3,6 +3,17 @@ import { createEmbed } from '../../components/embed.ts';
 import fetch from 'node-fetch';
 import type { Command } from '../../types/command.ts';
 
+interface Restaurant {
+  name: string;
+  type: string[];
+  rating: number;
+  price: { low: number; high: number };
+  location: string;
+  opening_time: { start: string; end: string }[];
+  link: string;
+  address: string;
+}
+
 class ImplementedCommand implements Command {
   data = new SlashCommandBuilder()
     .setName('ntueat')
@@ -11,7 +22,7 @@ class ImplementedCommand implements Command {
   async execute(interaction: ChatInputCommandInteraction) {
     try {
       const response = await fetch('https://hypersoweak.github.io/ntu-what-to-eat/restaurants.json');
-      const restaurants = (await response.json()) as any;
+      const restaurants = (await response.json()) as Restaurant[];
 
       const randomRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
 

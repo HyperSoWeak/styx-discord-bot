@@ -1,4 +1,4 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder, User } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
 import type { Command } from '../../types/command.ts';
 import UserAchievement from '../../models/UserAchievement.ts';

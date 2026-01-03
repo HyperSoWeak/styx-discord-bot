@@ -78,6 +78,6 @@ async function startBot() {
 }
 
 // Start the bot
-startBot();
+startBot().catch(console.error);
 
 export { client };

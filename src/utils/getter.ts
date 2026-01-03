@@ -6,7 +6,7 @@ export async function getGuildSettings(guildId: string) {
   return guildSettings;
 }
 
-const emojis: { [key: string]: { id: string; testId: string } } = {
+const emojis: Record<string, { id: string; testId: string }> = {
   pofang_bronze: {
     id: '1348578585488654388',
     testId: '1348001652828798998',

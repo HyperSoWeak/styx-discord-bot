@@ -1,12 +1,6 @@
-import {
-  ChatInputCommandInteraction,
-  InteractionContextType,
-  MessageFlags,
-  SlashCommandBuilder,
-  TextChannel,
-} from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import type { Command } from '../../types/command.ts';
-import { createEmbed, createInfoEmbed, replyInfoEmbed } from '../../components/embed.ts';
+import { createEmbed, createInfoEmbed } from '../../components/embed.ts';
 
 class ImplementedCommand implements Command {
   cooldown = 20;
@@ -29,7 +23,7 @@ class ImplementedCommand implements Command {
     .setContexts(InteractionContextType.Guild);
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    interaction.deferReply({ flags: MessageFlags.Ephemeral });
+    await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const question = interaction.options.getString('question');
     const options = [

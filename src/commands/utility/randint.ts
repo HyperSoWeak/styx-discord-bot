@@ -9,8 +9,8 @@ class ImplementedCommand implements Command {
     .addIntegerOption((option) => option.setName('max').setDescription('The maximum number.').setRequired(true));
 
   async execute(interaction: ChatInputCommandInteraction) {
-    const min = interaction.options.getInteger('min') || 1;
-    const max = interaction.options.getInteger('max')!;
+    const min = interaction.options.getInteger('min') ?? 1;
+    const max = interaction.options.getInteger('max') ?? 100;
     const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
 
     const emojiRandomNumber = randomNumber

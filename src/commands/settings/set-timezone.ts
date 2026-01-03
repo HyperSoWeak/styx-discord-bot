@@ -44,7 +44,7 @@ class ImplementedCommand implements Command {
       { new: true, upsert: true }
     );
 
-    interaction.reply({
+    await interaction.reply({
       embeds: [createInfoEmbed(interaction, 'success', `Timezone has been updated to **${updatedGuild.timezone}**.`)],
     });
   }

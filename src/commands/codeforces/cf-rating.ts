@@ -35,10 +35,10 @@ class CodeforcesCommand implements Command {
     );
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    const handle = interaction.options.getString('handle');
+    const handle = interaction.options.getString('handle') ?? '';
 
     try {
-      const userInfo = await fetchCodeforcesUser(handle!);
+      const userInfo = await fetchCodeforcesUser(handle);
       const { rating = 'Unrated', rank = 'Unranked', handle: userHandle, maxRating, maxRank } = userInfo;
 
       const ratingColor = typeof rating === 'number' ? getRatingColor(rating) : '#000000';
@@ -56,7 +56,7 @@ class CodeforcesCommand implements Command {
       await interaction.reply({
         embeds: [cfEmbed],
       });
-    } catch (error) {
+    } catch {
       await interaction.reply({
         content: `Error: Could not fetch data for the handle \`${handle}\`. Make sure the handle is correct.`,
         flags: MessageFlags.Ephemeral,

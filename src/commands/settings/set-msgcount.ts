@@ -22,7 +22,7 @@ class ImplementedCommand implements Command {
     const enabled = interaction.options.getBoolean('enabled');
     const guildId = interaction.guild?.id || '';
 
-    let guildSettings = await getGuildSettings(guildId);
+    const guildSettings = await getGuildSettings(guildId);
     guildSettings.hasMsgCount = enabled ?? false;
     await guildSettings.save();
 

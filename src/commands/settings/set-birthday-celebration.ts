@@ -22,7 +22,7 @@ class ImplementedCommand implements Command {
     const enabled = interaction.options.getBoolean('enabled');
     const guildId = interaction.guild?.id || '';
 
-    let guildSettings = await GuildSettings.findOneAndUpdate({ guildId }, { guildId }, { new: true, upsert: true });
+    const guildSettings = await GuildSettings.findOneAndUpdate({ guildId }, { guildId }, { new: true, upsert: true });
     guildSettings.hasBirthdayCelebration = enabled ?? false;
     await guildSettings.save();
 

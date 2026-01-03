@@ -1,4 +1,4 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, MessageFlags } from 'discord.js';
+import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import fetch from 'node-fetch';
 import sharp from 'sharp';
 import { Command } from '../../types/command.ts';

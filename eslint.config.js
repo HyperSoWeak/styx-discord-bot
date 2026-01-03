@@ -1,55 +1,48 @@
 import js from '@eslint/js';
+import tseslint from 'typescript-eslint';
 import prettierConfig from 'eslint-config-prettier';
 
-export default [
+export default tseslint.config(
+  { ignores: ['dist', 'node_modules', '.git', 'coverage'] },
   js.configs.recommended,
+  ...tseslint.configs.strict,
+  ...tseslint.configs.stylistic,
   {
     languageOptions: {
-      ecmaVersion: 'latest',
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      parserOptions: {
+        project: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
-      'arrow-spacing': ['warn', { before: true, after: true }],
-      'brace-style': ['error', '1tbs'],
-      'comma-dangle': ['off'],
-      'comma-spacing': 'error',
-      'comma-style': 'error',
+      // Logic & Best Practices
       curly: ['error', 'multi-line', 'consistent'],
-      'dot-location': ['error', 'property'],
-      'handle-callback-err': 'off',
-      indent: ['error', 2],
-      'keyword-spacing': 'error',
-      'max-nested-callbacks': ['error', { max: 4 }],
-      'max-statements-per-line': ['error', { max: 2 }],
-      'no-console': 'off',
+      'no-console': 'off', // Allow console logging for the bot
       'no-empty-function': 'error',
-      'no-floating-decimal': 'error',
-      'no-inline-comments': 'error',
       'no-lonely-if': 'error',
-      'no-multi-spaces': 'error',
-      'no-multiple-empty-lines': ['error', { max: 2, maxEOF: 1, maxBOF: 0 }],
-      'no-shadow': ['error', { allow: ['err', 'resolve', 'reject'] }],
-      'no-trailing-spaces': ['error'],
       'no-var': 'error',
-      'no-undef': 'off',
-      'object-curly-spacing': ['error', 'always'],
       'prefer-const': 'error',
-      quotes: ['error', 'single'],
-      semi: ['error', 'always'],
-      'space-before-blocks': 'error',
-      'space-before-function-paren': [
-        'error',
-        {
-          anonymous: 'never',
-          named: 'never',
-          asyncArrow: 'always',
-        },
-      ],
-      'space-in-parens': 'error',
-      'space-infix-ops': 'error',
-      'space-unary-ops': 'error',
-      'spaced-comment': 'error',
       yoda: 'error',
+      'no-shadow': 'off', // Turn off JS rule to avoid false positives
+      '@typescript-eslint/no-shadow': ['error'],
+
+      // Promise handling (Crucial for Discord.js)
+      '@typescript-eslint/no-floating-promises': 'error',
+      '@typescript-eslint/no-misused-promises': 'error',
+
+      // Type safety
+      '@typescript-eslint/no-explicit-any': 'warn', // Warn on any, but allow if necessary
+
+      // Style (that Prettier doesn't handle or complements)
+      '@typescript-eslint/consistent-type-definitions': ['error', 'interface'],
     },
   },
-  prettierConfig,
-];
+  // Disable type-checking for config files to avoid "not included in tsconfig" errors
+  {
+    files: ['**/*.js', '**/*.mjs'],
+    extends: [tseslint.configs.disableTypeChecked],
+  },
+  prettierConfig
+);

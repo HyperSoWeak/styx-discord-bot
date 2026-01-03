@@ -19,7 +19,7 @@ class ImplementedCommand implements Command {
       return;
     }
 
-    interaction.channel.send(content);
+    await interaction.channel.send(content);
 
     await interaction.reply({
       content: 'Message sent!',

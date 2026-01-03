@@ -24,13 +24,20 @@ async function handleMsgRelay(message: Message) {
 }
 
 async function handleMsgCount(message: Message) {
-  for (const { name, keywords, responses, counter } of msgCountList) {
+  for (const { name: achievementName, keywords, responses, counter } of msgCountList) {
     if (keywords.some((keyword) => message.content.includes(keyword))) {
       try {
-        let userMsgCount = (await MsgCount.findOne({ userId: message.author.id })) as any;
+        interface UserMsgCount {
+          userId: string;
+          save: () => Promise<void>;
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          [key: string]: any;
+        }
+
+        let userMsgCount = (await MsgCount.findOne({ userId: message.author.id })) as UserMsgCount | null;
 
         if (!userMsgCount) {
-          userMsgCount = new MsgCount({ userId: message.author.id, [counter]: 1 });
+          userMsgCount = new MsgCount({ userId: message.author.id, [counter]: 1 }) as unknown as UserMsgCount;
           await userMsgCount.save();
         } else {
           userMsgCount[counter]++;
@@ -41,8 +48,8 @@ async function handleMsgCount(message: Message) {
         await message.reply(response);
 
         // handle achievement
-        if (name === 'pofang') {
-          achievementManager.handlePofang(message.author.id, userMsgCount[counter], message.channel);
+        if (achievementName === 'pofang') {
+          await achievementManager.handlePofang(message.author.id, userMsgCount[counter], message.channel);
         }
       } catch (err) {
         console.error('Error while updating user count:', err);
@@ -64,7 +71,7 @@ export async function execute(message: Message) {
   if (!message.guild) return;
   const guildSettings = await getGuildSettings(message.guild.id);
 
-  if (guildSettings.hasRhymeTest) handleRhymeTest(message);
-  if (guildSettings.hasMsgRelay) handleMsgRelay(message);
-  if (guildSettings.hasMsgCount) handleMsgCount(message);
+  if (guildSettings.hasRhymeTest) await handleRhymeTest(message);
+  if (guildSettings.hasMsgRelay) await handleMsgRelay(message);
+  if (guildSettings.hasMsgCount) await handleMsgCount(message);
 }

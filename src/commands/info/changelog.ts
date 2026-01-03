@@ -3,6 +3,12 @@ import { createEmbed } from '../../components/embed.ts';
 import changelogEntries from '../../data/changelog.ts';
 import type { Command } from '../../types/command.ts';
 
+interface ChangelogEntry {
+  version: string;
+  date: string;
+  description: string[];
+}
+
 const ENTRIES_PER_PAGE = 3;
 
 class ImplementedCommand implements Command {
@@ -21,11 +27,14 @@ class ImplementedCommand implements Command {
         .setTitle(':bookmark_tabs: Changelog')
         .setDescription('Here are the recent updates to the bot:')
         .addFields(
-          ...entriesForPage.map((entry: any) => ({
-            name: `${entry.version} - ${entry.date}`,
-            value: entry.description.join('\n'),
-            inline: false,
-          }))
+          ...entriesForPage.map((entry: unknown) => {
+            const e = entry as ChangelogEntry;
+            return {
+              name: `${e.version} - ${e.date}`,
+              value: e.description.join('\n'),
+              inline: false,
+            };
+          })
         );
 
       return changelogEmbed;
@@ -38,39 +47,45 @@ class ImplementedCommand implements Command {
     });
     const sentMessage = response.resource?.message;
 
-    const collector = sentMessage!.createMessageComponentCollector({
+    if (!sentMessage) return;
+
+    const collector = sentMessage.createMessageComponentCollector({
       componentType: ComponentType.Button,
       time: 60000,
     });
 
-    collector.on('collect', async (i) => {
-      if (i.user.id !== interaction.user.id) {
-        return i.reply({
-          content: 'You are not allowed to interact with these buttons.',
-          ephemeral: true,
+    collector.on('collect', (i) => {
+      void (async () => {
+        if (i.user.id !== interaction.user.id) {
+          return i.reply({
+            content: 'You are not allowed to interact with these buttons.',
+            ephemeral: true,
+          });
+        }
+
+        if (i.customId === 'next') {
+          if (currentPage < totalPages - 1) {
+            currentPage++;
+          }
+        } else if (i.customId === 'previous') {
+          if (currentPage > 0) {
+            currentPage--;
+          }
+        }
+
+        await i.update({
+          embeds: [createChangelogEmbed(currentPage)],
+          components: [getPaginationButtons(currentPage, totalPages)],
         });
-      }
-
-      if (i.customId === 'next') {
-        if (currentPage < totalPages - 1) {
-          currentPage++;
-        }
-      } else if (i.customId === 'previous') {
-        if (currentPage > 0) {
-          currentPage--;
-        }
-      }
-
-      await i.update({
-        embeds: [createChangelogEmbed(currentPage)],
-        components: [getPaginationButtons(currentPage, totalPages)],
-      });
+      })();
     });
 
-    collector.on('end', async () => {
-      await (sentMessage as Message).edit({
-        components: [],
-      });
+    collector.on('end', () => {
+      void (async () => {
+        await (sentMessage as Message).edit({
+          components: [],
+        });
+      })();
     });
   }
 }
