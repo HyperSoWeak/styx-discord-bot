@@ -6,9 +6,6 @@ export interface Developer {
 export interface Config {
   version: string;
   developers: Developer[];
-  testGuildId: string;
-  client: {
-    id: string;
-    testId: string;
-  };
+  testGuildId?: string;
+  clientId: string;
 }

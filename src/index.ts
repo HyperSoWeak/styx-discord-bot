@@ -2,36 +2,22 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Client, Collection, GatewayIntentBits } from 'discord.js';
-
 import chalk from 'chalk';
-import type { Config } from './types/config.ts';
-import type { Token } from './types/token.ts';
+import { AppConfig, clientConfig } from './config/index.ts';
 import type { CustomClient } from './types/customClient.ts';
-import type { Command } from './types/command.ts';
-
-const args = process.argv.slice(2);
-const isTest = args[0] === 'test';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const config: Config = JSON.parse(fs.readFileSync(path.join(__dirname, 'config.json'), 'utf-8'));
-const token: Token = JSON.parse(fs.readFileSync(path.join(__dirname, 'token.json'), 'utf-8'));
 
 // Create the client instance
 const client = new Client({
   intents: Object.values(GatewayIntentBits) as number[],
 }) as CustomClient;
 
-// Set client properties for testing mode
-if (isTest) {
-  token.client = token.testClient;
-  client.isTest = true;
-}
-
+client.isTest = AppConfig.isTest;
 client.commands = new Collection();
 client.cooldowns = new Collection();
-client.config = config;
+client.config = clientConfig;
 
 // Function to load commands dynamically
 async function loadCommands() {
@@ -79,14 +65,12 @@ async function loadEvents() {
   }
 }
 
-
-
 // Log in to Discord and start the bot
 async function startBot() {
   try {
     await loadCommands();
     await loadEvents();
-    await client.login(token.client);
+    await client.login(AppConfig.DISCORD_TOKEN);
     console.log(chalk.green('Bot logged in successfully!'));
   } catch (err) {
     console.log(chalk.red(`[ERROR] Failed to initialize bot: ${err}`));

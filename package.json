@@ -3,11 +3,10 @@
   "version": "1.4.0",
   "main": "src/index.js",
   "scripts": {
-    "start": "npx tsx src/index.ts",
-    "deploy": "npx tsx src/index.ts > log.txt 2>&1 &",
-    "dev": "npx tsx src/index.ts test",
-    "deploy-commands": "npx tsx src/deploy-commands.ts global",
-    "dev:deploy-commands": "npx tsx src/deploy-commands.ts guild test"
+    "start": "NODE_ENV=production tsx src/index.ts",
+    "dev": "NODE_ENV=development tsx src/index.ts",
+    "deploy-commands": "tsx src/deploy-commands.ts",
+    "lint": "eslint ."
   },
   "keywords": [],
   "author": "HyperSoWeak",
@@ -17,12 +16,14 @@
   "dependencies": {
     "chalk": "^5.4.1",
     "discord.js": "^14.14.1",
+    "dotenv": "^17.2.3",
     "moment-timezone": "^0.5.47",
     "mongoose": "^8.9.5",
     "node-cron": "^3.0.3",
     "node-fetch": "^3.3.2",
     "pinyin": "^2.11.0",
-    "sharp": "^0.33.5"
+    "sharp": "^0.33.5",
+    "zod": "^4.3.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.19.0",

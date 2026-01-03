@@ -1,5 +1,34 @@
-node_modules
-.env
-src/token.json
+# Dependencies
+node_modules/
+
+# Environment Variables & Secrets
+.env*
+!.env.example
+
+# Build Outputs
+dist/
+build/
+out/
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
 log.txt
-TODO.md
+*.log
+
+# Editor/IDE Settings
+.vscode/
+.zed/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Temporary Files
+tmp/
+temp/
+
+# Coverage (if you add tests later)
+coverage/

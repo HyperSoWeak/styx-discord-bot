@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import chalk from 'chalk';
-import token from '../token.json' with { type: 'json' };
+import { AppConfig } from '../config/index.ts';
 
 export async function connectDB() {
-  await mongoose.connect(token.mongodb);
+  await mongoose.connect(AppConfig.MONGODB_URI);
 }
 
 mongoose.connection.on('connected', () => console.log(chalk.green('[Database] connected to MongoDB')));
