@@ -1,0 +1,37 @@
+services:
+  # 1. MongoDB Service
+  mongo:
+    image: mongo:latest
+    container_name: styx-mongo
+    restart: always
+    environment:
+      MONGO_INITDB_DATABASE: styx
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - styx-network
+
+  # 2. Discord Bot Service
+  bot:
+    build: .
+    container_name: styx-bot
+    restart: always
+    depends_on:
+      - mongo
+    environment:
+      # Use internal docker dns 'mongo' to connect
+      - MONGODB_URI=mongodb://mongo:27017/styx
+      - NODE_ENV=production
+    env_file:
+      - .env.production
+    networks:
+      - styx-network
+
+volumes:
+  mongo-data:
+
+networks:
+  styx-network:
+    driver: bridge
