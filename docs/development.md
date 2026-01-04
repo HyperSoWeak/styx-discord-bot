@@ -16,13 +16,17 @@ Ensure the following tools are installed on your system:
 
 Run the following command to install project dependencies:
 
+```sh
 pnpm install
+```
 
 ### 2. Start Local Database
 
 The project uses a local MongoDB instance running via Docker. This ensures isolation from production data.
 
+```sh
 docker-compose up -d mongo
+```
 
 ### 3. Configure Environment Variables
 
@@ -37,7 +41,9 @@ docker-compose up -d mongo
 
 Start the bot in development mode. This connects to the local MongoDB instance started in step 2.
 
+```sh
 pnpm run dev
+```
 
 Note: In development mode, slash commands are automatically registered to your specified test guild on startup.
 
@@ -45,7 +51,9 @@ Note: In development mode, slash commands are automatically registered to your s
 
 When finished, you can stop the database container:
 
+```sh
 docker-compose stop mongo
+```
 
 ## Project Architecture
 
@@ -151,13 +159,17 @@ Ensure `.env.production` is populated with your production credentials (Token, C
 
 Build and start the containers in detached mode:
 
+```sh
 docker-compose up -d --build
+```
 
 ### 3. View Logs
 
 Monitor the bot logs:
 
+```sh
 docker-compose logs -f bot
+```
 
 ## Code Quality
 
