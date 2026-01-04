@@ -1,4 +1,10 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  InteractionContextType,
+  MessageFlags,
+  TextChannel,
+} from 'discord.js';
 import type { Command } from '../../types/command.ts';
 import { createEmbed, createInfoEmbed } from '../../components/embed.ts';
 

@@ -1,8 +1,16 @@
-import { ChatInputCommandInteraction } from 'discord.js';
-import type { SlashCommandOptionsOnlyBuilder } from 'discord.js';
+import {
+  ChatInputCommandInteraction,
+  SlashCommandBuilder,
+  SlashCommandOptionsOnlyBuilder,
+  SlashCommandSubcommandsOnlyBuilder,
+} from 'discord.js';
 
 export interface Command {
-  data: SlashCommandOptionsOnlyBuilder;
+  data:
+    | SlashCommandBuilder
+    | SlashCommandOptionsOnlyBuilder
+    | SlashCommandSubcommandsOnlyBuilder
+    | Omit<SlashCommandBuilder, 'addSubcommand' | 'addSubcommandGroup'>;
   execute(interaction: ChatInputCommandInteraction): Promise<void>;
   cooldown?: number;
   ownerOnly?: boolean;
