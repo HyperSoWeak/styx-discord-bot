@@ -40,14 +40,18 @@ async function loadEvents() {
   }
 }
 
+import { loadAchievements } from './utils/achievementLoader.ts';
+
 // Log in to Discord and start the bot
 async function startBot() {
   try {
+    // Load Commands using the shared loader
     const commands = await loadCommands(path.join(__dirname, 'commands'));
     for (const command of commands) {
       client.commands.set(command.data.name, command);
     }
 
+    await loadAchievements();
     await loadEvents();
     await client.login(AppConfig.DISCORD_TOKEN);
     console.log(chalk.green('Bot logged in successfully!'));
