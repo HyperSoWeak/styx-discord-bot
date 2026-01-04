@@ -25,7 +25,7 @@ pnpm install
 The project uses a local MongoDB instance running via Docker. This ensures isolation from production data.
 
 ```sh
-docker-compose up -d mongo
+docker compose up -d mongo
 ```
 
 ### 3. Configure Environment Variables
@@ -35,7 +35,7 @@ docker-compose up -d mongo
    - DISCORD_TOKEN: Your test bot token.
    - CLIENT_ID: Your test bot application ID.
    - TEST_GUILD_ID: The ID of the server where you want to test commands.
-   - MONGODB_URI: This should default to `mongodb://localhost:27017/styx`.
+   - MONGODB_URI: This should default to `mongodb://localhost:27018/styx`.
 
 ### 4. Start Development Mode
 
@@ -52,7 +52,7 @@ Note: In development mode, slash commands are automatically registered to your s
 When finished, you can stop the database container:
 
 ```sh
-docker-compose stop mongo
+docker compose stop mongo
 ```
 
 ## Project Architecture
@@ -160,7 +160,7 @@ Ensure `.env.production` is populated with your production credentials (Token, C
 Build and start the containers in detached mode:
 
 ```sh
-docker-compose up -d --build
+docker compose up -d --build
 ```
 
 ### 3. View Logs
@@ -168,8 +168,20 @@ docker-compose up -d --build
 Monitor the bot logs:
 
 ```sh
-docker-compose logs -f bot
+docker compose logs -f bot
 ```
+
+### 4. Deploy Commands
+
+Production mode does not automatically register slash commands to avoid rate limits and API spam. You must manually run the deployment script after adding or modifying commands.
+
+Run this command inside the running bot container:
+
+```sh
+docker compose exec bot pnpm run deploy-commands
+```
+
+**Note:** Global commands (used in production) can take up to **1 hour** to propagate to all servers due to Discord's caching.
 
 ## Code Quality
 

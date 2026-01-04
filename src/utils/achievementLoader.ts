@@ -1,5 +1,5 @@
 import { achievementService } from '../services/achievement/AchievementService.ts';
-import { pofangAchievements } from './achievements/pofang.ts';
+import { pofangAchievements } from '../data/achievements/pofang.ts';
 import chalk from 'chalk';
 
 export async function loadAchievements() {

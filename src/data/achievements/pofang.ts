@@ -1,4 +1,4 @@
-import { defineAchievement } from '../types/achievement.ts';
+import { defineAchievement } from '../../types/achievement.ts';
 
 export const pofangAchievements = [
   defineAchievement({

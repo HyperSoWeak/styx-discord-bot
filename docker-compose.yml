@@ -7,7 +7,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: styx
     ports:
-      - '27017:27017'
+      - '27020:27017'
     volumes:
       - mongo-data:/data/db
     networks:

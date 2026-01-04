@@ -60,7 +60,9 @@ async function startBot() {
   }
 }
 
-// Start the bot
-startBot().catch(console.error);
+// Start the bot only if this file is the main entry point
+if (process.argv[1] === __filename) {
+  startBot().catch(console.error);
+}
 
 export { client };
