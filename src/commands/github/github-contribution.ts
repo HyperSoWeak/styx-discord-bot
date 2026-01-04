@@ -1,21 +1,20 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import fetch from 'node-fetch';
 import sharp from 'sharp';
-import { Command } from '../../types/command.ts';
 import { createInfoEmbed } from '../../components/embed.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class GithubContributionCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('github-contribution')
-    .setDescription('Get the GitHub contribution graph for a user.')
-    .addStringOption((option) =>
+export default defineCommand({
+  name: 'github-contribution',
+  description: 'Get the GitHub contribution graph for a user.',
+  options: (cmd) =>
+    cmd.addStringOption((option) =>
       option
         .setName('username')
         .setDescription('The GitHub username to get the contribution graph for.')
         .setRequired(true)
-    );
+    ),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     await interaction.deferReply();
 
     const username = interaction.options.getString('username');
@@ -68,7 +67,5 @@ class GithubContributionCommand implements Command {
         embeds: [createInfoEmbed(interaction, 'error', `Failed to fetch the contribution graph for **${username}**.`)],
       });
     }
-  }
-}
-
-export default new GithubContributionCommand();
+  },
+});

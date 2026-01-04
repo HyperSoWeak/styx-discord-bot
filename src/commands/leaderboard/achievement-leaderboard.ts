@@ -1,6 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 import UserAchievement from '../../models/UserAchievement.ts';
 
 async function getAchievementLeaderboard(): Promise<string> {
@@ -31,12 +30,11 @@ async function getAchievementLeaderboard(): Promise<string> {
   }
 }
 
-class AchievementLeaderboardCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('achievement-leaderboard')
-    .setDescription('Displays the global achievement leaderboard.');
+export default defineCommand({
+  name: 'achievement-leaderboard',
+  description: 'Displays the global achievement leaderboard.',
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const leaderboard = await getAchievementLeaderboard();
 
     const leaderboardEmbed = createEmbed(interaction)
@@ -46,7 +44,5 @@ class AchievementLeaderboardCommand implements Command {
     await interaction.reply({
       embeds: [leaderboardEmbed],
     });
-  }
-}
-
-export default new AchievementLeaderboardCommand();
+  },
+});

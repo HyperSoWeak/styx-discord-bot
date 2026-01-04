@@ -1,28 +1,25 @@
-import {
-  ChatInputCommandInteraction,
-  InteractionContextType,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
-  TextChannel,
-} from 'discord.js';
+import { InteractionContextType, PermissionFlagsBits, TextChannel } from 'discord.js';
 import GuildSettings from '../../models/GuildSettings.ts';
-import type { Command } from '../../types/command.ts';
 import { replyInfoEmbed } from '../../components/embed.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('set-announcement-channel')
-    .setDescription('Sets or clears the channel for announcements.')
-    .addChannelOption((option) =>
-      option
-        .setName('channel')
-        .setDescription('The channel to set for announcements (leave empty to clear)')
-        .setRequired(false)
-    )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'set-announcement-channel',
+  description: 'Sets or clears the channel for announcements.',
+  data: (builder) =>
+    builder
+      .setName('set-announcement-channel')
+      .setDescription('Sets or clears the channel for announcements.')
+      .addChannelOption((option) =>
+        option
+          .setName('channel')
+          .setDescription('The channel to set for announcements (leave empty to clear)')
+          .setRequired(false)
+      )
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const channel = interaction.options.getChannel('channel') as TextChannel;
     const guildId = interaction.guildId;
 
@@ -45,7 +42,5 @@ class ImplementedCommand implements Command {
       await guildSettings.save();
       await replyInfoEmbed(interaction, 'success', `Announcement channel has been cleared for this server.`);
     }
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

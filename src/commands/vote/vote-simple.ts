@@ -1,34 +1,33 @@
-import {
-  ChatInputCommandInteraction,
-  SlashCommandBuilder,
-  InteractionContextType,
-  MessageFlags,
-  TextChannel,
-} from 'discord.js';
-import type { Command } from '../../types/command.ts';
+import { InteractionContextType, MessageFlags, TextChannel } from 'discord.js';
 import { createEmbed, createInfoEmbed } from '../../components/embed.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  cooldown = 20;
-  data = new SlashCommandBuilder()
-    .setName('vote-simple')
-    .setDescription('Create a simple vote with up to 10 options. Users can react to vote.')
-    .addStringOption((option) =>
-      option.setName('question').setDescription('The question or topic for the vote.').setRequired(true)
-    )
-    .addStringOption((option) => option.setName('option1').setDescription('First voting option.').setRequired(true))
-    .addStringOption((option) => option.setName('option2').setDescription('Second voting option.').setRequired(true))
-    .addStringOption((option) => option.setName('option3').setDescription('Third voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option4').setDescription('Fourth voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option5').setDescription('Fifth voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option6').setDescription('Sixth voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option7').setDescription('Seventh voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option8').setDescription('Eighth voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option9').setDescription('Ninth voting option.').setRequired(false))
-    .addStringOption((option) => option.setName('option10').setDescription('Tenth voting option.').setRequired(false))
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'vote-simple',
+  description: 'Create a simple vote with up to 10 options. Users can react to vote.',
+  cooldown: 20,
+  data: (builder) =>
+    builder
+      .setName('vote-simple')
+      .setDescription('Create a simple vote with up to 10 options. Users can react to vote.')
+      .addStringOption((option) =>
+        option.setName('question').setDescription('The question or topic for the vote.').setRequired(true)
+      )
+      .addStringOption((option) => option.setName('option1').setDescription('First voting option.').setRequired(true))
+      .addStringOption((option) => option.setName('option2').setDescription('Second voting option.').setRequired(true))
+      .addStringOption((option) => option.setName('option3').setDescription('Third voting option.').setRequired(false))
+      .addStringOption((option) => option.setName('option4').setDescription('Fourth voting option.').setRequired(false))
+      .addStringOption((option) => option.setName('option5').setDescription('Fifth voting option.').setRequired(false))
+      .addStringOption((option) => option.setName('option6').setDescription('Sixth voting option.').setRequired(false))
+      .addStringOption((option) =>
+        option.setName('option7').setDescription('Seventh voting option.').setRequired(false)
+      )
+      .addStringOption((option) => option.setName('option8').setDescription('Eighth voting option.').setRequired(false))
+      .addStringOption((option) => option.setName('option9').setDescription('Ninth voting option.').setRequired(false))
+      .addStringOption((option) => option.setName('option10').setDescription('Tenth voting option.').setRequired(false))
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
     const question = interaction.options.getString('question');
@@ -63,7 +62,5 @@ class ImplementedCommand implements Command {
     await interaction.editReply({
       embeds: [createInfoEmbed(interaction, 'success', 'Vote created successfully!')],
     });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

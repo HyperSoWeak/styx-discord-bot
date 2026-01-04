@@ -1,6 +1,5 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 import MsgCount from '../../models/MsgCount.ts';
 
 async function getPofangLeaderboard(): Promise<string> {
@@ -31,12 +30,11 @@ async function getPofangLeaderboard(): Promise<string> {
   }
 }
 
-class PofangLeaderboardCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('pofang-leaderboard')
-    .setDescription('Displays the global pofang leaderboard.');
+export default defineCommand({
+  name: 'pofang-leaderboard',
+  description: 'Displays the global pofang leaderboard.',
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const leaderboard = await getPofangLeaderboard();
 
     const leaderboardEmbed = createEmbed(interaction).setTitle('🔥 Pofang Leaderboard').setDescription(leaderboard);
@@ -44,7 +42,5 @@ class PofangLeaderboardCommand implements Command {
     await interaction.reply({
       embeds: [leaderboardEmbed],
     });
-  }
-}
-
-export default new PofangLeaderboardCommand();
+  },
+});

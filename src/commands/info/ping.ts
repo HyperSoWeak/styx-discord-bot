@@ -1,11 +1,11 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder().setName('ping').setDescription('Displays the bot latency and API ping.');
+export default defineCommand({
+  name: 'ping',
+  description: 'Displays the bot latency and API ping.',
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const sentMessage = await interaction.reply({
       content: 'Pinging...',
       withResponse: true,
@@ -26,7 +26,5 @@ class ImplementedCommand implements Command {
       content: null,
       embeds: [pingEmbed],
     });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

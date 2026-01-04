@@ -1,13 +1,13 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
 import { getFormattedDate } from '../../utils/time.ts';
 import type { CustomClient } from '../../types/customClient.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder().setName('bot-info').setDescription('Provides information about the bot.');
+export default defineCommand({
+  name: 'bot-info',
+  description: 'Provides information about the bot.',
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const bot = interaction.client as CustomClient;
 
     const uptime = bot.uptime || 0;
@@ -32,7 +32,5 @@ class ImplementedCommand implements Command {
       );
 
     await interaction.reply({ embeds: [botInfoEmbed] });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

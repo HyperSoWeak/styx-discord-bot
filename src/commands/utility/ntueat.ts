@@ -1,7 +1,6 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction } from 'discord.js';
-import { createEmbed } from '../../components/embed.ts';
 import fetch from 'node-fetch';
-import type { Command } from '../../types/command.ts';
+import { createEmbed } from '../../components/embed.ts';
+import { defineCommand } from '../../utils/command.ts';
 
 interface Restaurant {
   name: string;
@@ -14,12 +13,11 @@ interface Restaurant {
   address: string;
 }
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('ntueat')
-    .setDescription('Randomly recommends a restaurant to eat near NTU.');
+export default defineCommand({
+  name: 'ntueat',
+  description: 'Randomly recommends a restaurant to eat near NTU.',
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction) {
     try {
       const response = await fetch('https://hypersoweak.github.io/ntu-what-to-eat/restaurants.json');
       const restaurants = (await response.json()) as Restaurant[];
@@ -48,10 +46,8 @@ class ImplementedCommand implements Command {
       console.error(error);
       await interaction.reply({ content: 'Sorry, I could not fetch the restaurant data.', ephemeral: true });
     }
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});
 
 function formatOpeningHours(openingTimes: { start: string; end: string }[]): string {
   return openingTimes.map((time) => `• ${time.start} - ${time.end}`).join('\n');

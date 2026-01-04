@@ -1,9 +1,8 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
 import UserAchievement from '../../models/UserAchievement.ts';
 import { getFormattedDate } from '../../utils/time.ts';
 import achievements, { Achievement } from '../../data/achievements.ts';
+import { defineCommand } from '../../utils/command.ts';
 
 async function getUserAchievements(userId: string): Promise<string> {
   try {
@@ -32,15 +31,15 @@ async function getUserAchievements(userId: string): Promise<string> {
   }
 }
 
-class AchievementsCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('achievements')
-    .setDescription("Displays a user's achievements.")
-    .addUserOption((option) =>
+export default defineCommand({
+  name: 'achievements',
+  description: "Displays a user's achievements.",
+  options: (cmd) =>
+    cmd.addUserOption((option) =>
       option.setName('user').setDescription('The user to display achievements for (leave empty for yourself)')
-    );
+    ),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const targetUser = interaction.options.getUser('user') || interaction.user;
 
     const description = await getUserAchievements(targetUser.id);
@@ -52,7 +51,5 @@ class AchievementsCommand implements Command {
     await interaction.reply({
       embeds: [achievementsEmbed],
     });
-  }
-}
-
-export default new AchievementsCommand();
+  },
+});

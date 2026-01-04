@@ -1,28 +1,26 @@
-import {
-  SlashCommandBuilder,
-  ChatInputCommandInteraction,
-  InteractionContextType,
-  PermissionFlagsBits,
-} from 'discord.js';
+import { InteractionContextType, PermissionFlagsBits } from 'discord.js';
 import GuildSettings from '../../models/GuildSettings.ts';
 import moment from 'moment-timezone';
 import { createInfoEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('set-timezone')
-    .setDescription('Set the timezone for the guild.')
-    .addStringOption((option) =>
-      option
-        .setName('timezone')
-        .setDescription('Provide the timezone in IANA format (e.g., Asia/Taipei, Etc/GMT+8).')
-        .setRequired(true)
-    )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'set-timezone',
+  description: 'Set the timezone for the guild.',
+  data: (builder) =>
+    builder
+      .setName('set-timezone')
+      .setDescription('Set the timezone for the guild.')
+      .addStringOption((option) =>
+        option
+          .setName('timezone')
+          .setDescription('Provide the timezone in IANA format (e.g., Asia/Taipei, Etc/GMT+8).')
+          .setRequired(true)
+      )
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction) {
     const timezoneInput = interaction.options.getString('timezone') || '';
 
     // Check if the input is a valid timezone
@@ -47,7 +45,5 @@ class ImplementedCommand implements Command {
     await interaction.reply({
       embeds: [createInfoEmbed(interaction, 'success', `Timezone has been updated to **${updatedGuild.timezone}**.`)],
     });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

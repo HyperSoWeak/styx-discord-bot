@@ -1,24 +1,22 @@
-import {
-  ChatInputCommandInteraction,
-  InteractionContextType,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
-} from 'discord.js';
+import { InteractionContextType, PermissionFlagsBits } from 'discord.js';
 import { getGuildSettings } from '../../utils/getter.ts';
 import { createInfoEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('set-msgcount')
-    .setDescription('Toggle message count feature.')
-    .addBooleanOption((option) =>
-      option.setName('enabled').setDescription('Enable or disable message count feature.').setRequired(true)
-    )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'set-msgcount',
+  description: 'Toggle message count feature.',
+  data: (builder) =>
+    builder
+      .setName('set-msgcount')
+      .setDescription('Toggle message count feature.')
+      .addBooleanOption((option) =>
+        option.setName('enabled').setDescription('Enable or disable message count feature.').setRequired(true)
+      )
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction) {
     const enabled = interaction.options.getBoolean('enabled');
     const guildId = interaction.guild?.id || '';
 
@@ -35,7 +33,5 @@ class ImplementedCommand implements Command {
     );
 
     await interaction.reply({ embeds: [embed] });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

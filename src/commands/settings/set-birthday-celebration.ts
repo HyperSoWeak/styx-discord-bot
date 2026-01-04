@@ -1,24 +1,22 @@
-import {
-  ChatInputCommandInteraction,
-  InteractionContextType,
-  PermissionFlagsBits,
-  SlashCommandBuilder,
-} from 'discord.js';
+import { InteractionContextType, PermissionFlagsBits } from 'discord.js';
 import { replyInfoEmbed } from '../../components/embed.ts';
 import GuildSettings from '../../models/GuildSettings.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('set-birthday-celebration')
-    .setDescription('Toggle birthday celebration feature.')
-    .addBooleanOption((option) =>
-      option.setName('enabled').setDescription('Enable or disable birthday celebration feature.').setRequired(true)
-    )
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'set-birthday-celebration',
+  description: 'Toggle birthday celebration feature.',
+  data: (builder) =>
+    builder
+      .setName('set-birthday-celebration')
+      .setDescription('Toggle birthday celebration feature.')
+      .addBooleanOption((option) =>
+        option.setName('enabled').setDescription('Enable or disable birthday celebration feature.').setRequired(true)
+      )
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction) {
     const enabled = interaction.options.getBoolean('enabled');
     const guildId = interaction.guild?.id || '';
 
@@ -33,7 +31,5 @@ class ImplementedCommand implements Command {
         ? 'Birthday celebration feature has been **enabled** for this server.'
         : 'Birthday celebration feature has been **disabled** for this server.'
     );
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

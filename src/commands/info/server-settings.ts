@@ -1,15 +1,19 @@
-import { SlashCommandBuilder, ChatInputCommandInteraction, InteractionContextType } from 'discord.js';
+import { InteractionContextType } from 'discord.js';
 import GuildSettings from '../../models/GuildSettings.ts';
 import { createEmbed, replyInfoEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('server-settings')
-    .setDescription('Displays the current server settings.')
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'server-settings',
+  description: 'Displays the current server settings.',
+  // Using Full Mode for setContexts
+  data: (builder) =>
+    builder
+      .setName('server-settings')
+      .setDescription('Displays the current server settings.')
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction) {
     const guildSettings = await GuildSettings.findOneAndUpdate(
       { guildId: interaction.guildId },
       { guildId: interaction.guildId },
@@ -40,7 +44,5 @@ class ImplementedCommand implements Command {
       );
 
     await interaction.reply({ embeds: [settingsEmbed] });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

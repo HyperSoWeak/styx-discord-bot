@@ -1,18 +1,17 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import UserInfo from '../../models/UserInfo.ts';
 import { createEmbed } from '../../components/embed.ts';
 import { getFormattedDate } from '../../utils/time.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('user-info')
-    .setDescription('Provides information about the user who invoked the command or another user if provided.')
-    .addUserOption((option) =>
+export default defineCommand({
+  name: 'user-info',
+  description: 'Provides information about the user who invoked the command or another user if provided.',
+  options: (cmd) =>
+    cmd.addUserOption((option) =>
       option.setName('user').setDescription('The user you want to get information about').setRequired(false)
-    );
+    ),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const targetUser = interaction.options.getUser('user') || interaction.user;
     const targetMember = interaction.guild?.members.cache.get(targetUser.id);
 
@@ -32,7 +31,5 @@ class ImplementedCommand implements Command {
       );
 
     await interaction.reply({ embeds: [userEmbed] });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

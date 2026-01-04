@@ -1,14 +1,12 @@
-import { ChatInputCommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
 import achievements, { Achievement } from '../../data/achievements.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class AchievementListCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('achievement-list')
-    .setDescription('Displays a list of all available achievements.');
+export default defineCommand({
+  name: 'achievement-list',
+  description: 'Displays a list of all available achievements.',
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const fields = achievements.map((achievement: Achievement) => ({
       name: `${achievement.emoji} ${achievement.name}`,
       value: `✨ ${achievement.description}`,
@@ -22,7 +20,5 @@ class AchievementListCommand implements Command {
     await interaction.reply({
       embeds: [achievementListEmbed],
     });
-  }
-}
-
-export default new AchievementListCommand();
+  },
+});

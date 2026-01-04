@@ -1,20 +1,20 @@
-import { SlashCommandBuilder, MessageFlags, ChatInputCommandInteraction } from 'discord.js';
+import { MessageFlags } from 'discord.js';
 import UserInfo from '../../models/UserInfo.ts';
 import { createInfoEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('set-birthday')
-    .setDescription('Set or clear your birthday.')
-    .addStringOption((option) =>
+export default defineCommand({
+  name: 'set-birthday',
+  description: 'Set or clear your birthday.',
+  options: (cmd) =>
+    cmd.addStringOption((option) =>
       option
         .setName('date')
         .setDescription('Your birthday in YYYY-MM-DD format or type "clear" to remove it.')
         .setRequired(true)
-    );
+    ),
 
-  async execute(interaction: ChatInputCommandInteraction) {
+  async execute(interaction) {
     const dateInput = interaction.options.getString('date')?.toLowerCase() || '';
 
     if (dateInput === 'clear') {
@@ -59,7 +59,5 @@ class ImplementedCommand implements Command {
       ],
       flags: MessageFlags.Ephemeral,
     });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

@@ -1,6 +1,6 @@
-import { ChatInputCommandInteraction, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { MessageFlags } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
 async function fetchCodeforcesUser(handle: string) {
   const response = await fetch(`https://codeforces.com/api/user.info?handles=${handle}`);
@@ -26,15 +26,15 @@ function getRatingColor(rating: number) {
   return '#000000';
 }
 
-class CodeforcesCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('cf-rating')
-    .setDescription("Fetches a user's Codeforces profile, including rating and color.")
-    .addStringOption((option) =>
+export default defineCommand({
+  name: 'cf-rating',
+  description: "Fetches a user's Codeforces profile, including rating and color.",
+  options: (cmd) =>
+    cmd.addStringOption((option) =>
       option.setName('handle').setDescription('The Codeforces handle of the user').setRequired(true)
-    );
+    ),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const handle = interaction.options.getString('handle') ?? '';
 
     try {
@@ -58,11 +58,14 @@ class CodeforcesCommand implements Command {
       });
     } catch {
       await interaction.reply({
-        content: `Error: Could not fetch data for the handle \`${handle}\`. Make sure the handle is correct.`,
+        content:
+          `Error: Could not fetch data for the handle 
+` +
+          handle +
+          `
+. Make sure the handle is correct.`,
         flags: MessageFlags.Ephemeral,
       });
     }
-  }
-}
-
-export default new CodeforcesCommand();
+  },
+});

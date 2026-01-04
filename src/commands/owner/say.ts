@@ -1,14 +1,14 @@
-import { SlashCommandBuilder, MessageFlags, ChatInputCommandInteraction } from 'discord.js';
-import type { Command } from '../../types/command.ts';
+import { MessageFlags } from 'discord.js';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  ownerOnly = true;
-  data = new SlashCommandBuilder()
-    .setName('say')
-    .setDescription('Say something as the bot.')
-    .addStringOption((option) => option.setName('content').setDescription('The content to say.').setRequired(true));
+export default defineCommand({
+  name: 'say',
+  description: 'Say something as the bot.',
+  ownerOnly: true,
+  options: (cmd) =>
+    cmd.addStringOption((option) => option.setName('content').setDescription('The content to say.').setRequired(true)),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const content = interaction.options.getString('content') || '';
 
     if (!interaction.channel?.isSendable()) {
@@ -27,7 +27,5 @@ class ImplementedCommand implements Command {
     });
 
     await interaction.deleteReply();
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

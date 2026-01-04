@@ -1,15 +1,19 @@
-import { ChatInputCommandInteraction, InteractionContextType, SlashCommandBuilder } from 'discord.js';
+import { InteractionContextType } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
 import { getFormattedDate } from '../../utils/time.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder()
-    .setName('server-info')
-    .setDescription('Provides information about the current server.')
-    .setContexts(InteractionContextType.Guild);
+export default defineCommand({
+  name: 'server-info',
+  description: 'Provides information about the current server.',
+  // Using Full Mode because we need setContexts
+  data: (builder) =>
+    builder
+      .setName('server-info')
+      .setDescription('Provides information about the current server.')
+      .setContexts(InteractionContextType.Guild),
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const { guild } = interaction;
     const owner = await guild?.fetchOwner();
 
@@ -27,7 +31,5 @@ class ImplementedCommand implements Command {
       );
 
     await interaction.reply({ embeds: [serverEmbed] });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});

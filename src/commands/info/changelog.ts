@@ -1,7 +1,7 @@
-import { SlashCommandBuilder, ComponentType, Message, ChatInputCommandInteraction } from 'discord.js';
+import { ComponentType, Message } from 'discord.js';
 import { createEmbed } from '../../components/embed.ts';
 import changelogEntries from '../../data/changelog.ts';
-import type { Command } from '../../types/command.ts';
+import { defineCommand } from '../../utils/command.ts';
 
 interface ChangelogEntry {
   version: string;
@@ -11,10 +11,11 @@ interface ChangelogEntry {
 
 const ENTRIES_PER_PAGE = 3;
 
-class ImplementedCommand implements Command {
-  data = new SlashCommandBuilder().setName('changelog').setDescription('Displays the changelog of the bot.');
+export default defineCommand({
+  name: 'changelog',
+  description: 'Displays the changelog of the bot.',
 
-  async execute(interaction: ChatInputCommandInteraction): Promise<void> {
+  async execute(interaction) {
     const totalPages = Math.ceil(changelogEntries.length / ENTRIES_PER_PAGE);
     let currentPage = 0;
 
@@ -87,10 +88,8 @@ class ImplementedCommand implements Command {
         });
       })();
     });
-  }
-}
-
-export default new ImplementedCommand();
+  },
+});
 
 function getPaginationButtons(currentPage: number, totalPages: number) {
   return {
