@@ -52,16 +52,20 @@ docker-compose stop mongo
 The project follows a Controller-Service-Model architecture to separate concerns.
 
 ### Commands (Controllers)
+
 Located in `src/commands`.
 Responsibilities:
+
 - Receive user interaction.
 - Validate input parameters.
 - Call appropriate services.
 - Send responses to the user.
 
 ### Services
+
 Located in `src/services`.
 Responsibilities:
+
 - Handle business logic.
 - Perform calculations.
 - Interact with the database via Models.
@@ -69,14 +73,18 @@ Responsibilities:
 - Independent of the Discord UI layer.
 
 ### Models
+
 Located in `src/models`.
 Responsibilities:
+
 - Define MongoDB schemas using Mongoose.
 - Provide data access interfaces.
 
 ### Events
+
 Located in `src/events`.
 Responsibilities:
+
 - Listen for Discord client events (e.g., `messageCreate`).
 - Delegate processing to relevant Services.
 
@@ -96,8 +104,7 @@ import { defineCommand } from '../../utils/command.ts';
 export default defineCommand({
   name: 'hello',
   description: 'Greets the user',
-  options: (cmd) => 
-    cmd.addStringOption(opt => opt.setName('name').setDescription('Your name').setRequired(true)),
+  options: (cmd) => cmd.addStringOption((opt) => opt.setName('name').setDescription('Your name').setRequired(true)),
 
   async execute(interaction) {
     const name = interaction.options.getString('name');
