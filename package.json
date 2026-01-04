@@ -8,7 +8,8 @@
     "deploy-commands": "tsx src/deploy-commands.ts",
     "lint": "eslint .",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "release": "release-it"
   },
   "keywords": [],
   "author": "HyperSoWeak",
